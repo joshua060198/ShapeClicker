@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_anim"
+        android:id="@+id/background">
+        
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_icon"
+            android:id="@+id/setting_button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="@dimen/s_8"/>
+
+        <ImageButton
+            android:layout_width="@dimen/start_button_size_width"
+            android:layout_height="@dimen/start_button_size_height"
+            android:scaleType="fitXY"
+            android:background="@drawable/start_button"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/start_button"
+            android:layout_marginTop="@dimen/s_8"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ts_25"
+            android:text="@string/highscore_text"
+            android:layout_below="@id/start_button"
+            android:id="@+id/highscore_text"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/s_20"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/highscore_header"
+            android:layout_below="@id/highscore_text"
+            android:layout_marginTop="@dimen/s_16"
+            android:layout_marginStart="@dimen/s_20">
+
+            <TextView
+                android:layout_width="@dimen/highscore_item_height"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_pic_t"
+                android:layout_alignParentStart="true"
+                android:text="@string/image_text"/>
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_name_t"
+                android:layout_toEndOf="@id/user_pic_t"
+                android:text="@string/name_text"
+                android:gravity="center_horizontal"/>
+
+            <TextView
+                android:layout_width="@dimen/highscore_item_height"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_score_t"
+                android:layout_toStartOf="@id/user_last_played_t"
+                android:text="@string/score_text"/>
+
+            <TextView
+                android:layout_width="@dimen/highscore_item_width"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_last_played_t"
+                android:layout_alignParentEnd="true"
+                android:gravity="center_horizontal"
+                android:text="@string/last_played_text"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/highscore_list_view"
+            android:layout_margin="@dimen/s_8"
+            android:layout_below="@id/highscore_header"/>
+    </RelativeLayout>
+
+</FrameLayout>
