@@ -4,6 +4,8 @@ package net.studios.anchovy.shapeclickergame.fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,11 +20,15 @@ import android.widget.RelativeLayout;
 
 import net.studios.anchovy.shapeclickergame.HighScoreAdapter;
 import net.studios.anchovy.shapeclickergame.R;
+import net.studios.anchovy.shapeclickergame.ShapeFactory;
+import net.studios.anchovy.shapeclickergame.model.Shape;
 
 public class PlayFragment extends Fragment implements View.OnTouchListener {
 
     private ImageView imageView;
     private Canvas canvas;
+    private Bitmap bitmap;
+    private ShapeFactory shapeFactory;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -49,23 +55,21 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
         animationDrawable.setExitFadeDuration(2500);
 
         this.imageView = v.findViewById(R.id.canvas);
-        final Bitmap[] bitmap = new Bitmap[1];
         imageView.post(new Runnable() {
             @Override
             public void run() {
-            bitmap[0] = Bitmap.createBitmap(
-                    imageView.getWidth(),
-                    imageView.getHeight(),
-                    Bitmap.Config.ARGB_4444
-            );
-            imageView.setImageBitmap(bitmap[0]);
-            canvas = new Canvas(bitmap[0]);
-            canvas.drawColor(getResources().getColor(R.color.lightGrey));
+                bitmap = Bitmap.createBitmap(
+                        imageView.getWidth(),
+                        imageView.getHeight(),
+                        Bitmap.Config.ARGB_4444
+                );
+                imageView.setImageBitmap(bitmap);
+                canvas = new Canvas(bitmap);
             }
         });
         imageView.setOnTouchListener(this);
-
-//        animationDrawable.start();
+        this.shapeFactory = ShapeFactory.getInstance((byte) 1, this.canvas);
+        animationDrawable.start();
 
         return v;
     }
@@ -82,7 +86,12 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d("tag", event.getRawX() + ", " + event.getRawY());
-        return false;
+        Log.d("tag", event.getX() + ", " + event.getY());
+        Paint p = new Paint();
+        p.setColor(getResources().getColor(R.color.colorPrimary));
+        this.canvas.drawCircle(event.getX(), event.getY(), 100, p);
+        v.invalidate();
+//        this.shapeFactory.generateShape((int) event.getX(), (int) event.getY(), 100, 100, 10.0, "ho");
+        return true;
     }
 }
