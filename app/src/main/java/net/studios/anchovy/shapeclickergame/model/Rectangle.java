@@ -1,7 +1,11 @@
 package net.studios.anchovy.shapeclickergame.model;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.util.Log;
+
+import net.studios.anchovy.shapeclickergame.GameUtil;
 
 public class Rectangle extends Shape {
 
@@ -20,12 +24,21 @@ public class Rectangle extends Shape {
 
     @Override
     public void draw() {
-
+        this.canvas.drawRect(x,y,x+width,y+height,this.paintFactory.getPaint(GameUtil.randomInt(0,3)));
     }
 
     @Override
     public void update() {
 
+    }
+
+    @Override
+    public boolean isCollide(Shape other) {
+        if (other instanceof Rectangle) {
+            return isCollideRectWithRect(this, (Rectangle) other);
+        } else if (other instanceof Circle) {
+            return isCollideRectWithCircle((Circle)other, this);
+        } else return false;
     }
 
     public int getWidth() {

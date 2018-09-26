@@ -2,6 +2,7 @@ package net.studios.anchovy.shapeclickergame;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -13,8 +14,9 @@ import android.widget.Toast;
 
 import net.studios.anchovy.shapeclickergame.fragment.HomeFragment;
 import net.studios.anchovy.shapeclickergame.fragment.PlayFragment;
+import net.studios.anchovy.shapeclickergame.model.PreferenceLoader;
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener, PlayFragment.PlayFragmentListener {
 
     private Presenter presenter;
     private HomeFragment homeFragment;
@@ -27,8 +29,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        this.presenter = new Presenter();
         this.homeFragment = HomeFragment.newInstance(getLayoutInflater());
-        this.playFragment = PlayFragment.newInstance(getLayoutInflater());
+        this.playFragment = PlayFragment.newInstance(presenter);
 
         changeToHomeFragment();
 
@@ -39,6 +42,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
             // Request user to grant write external storage permission.
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, GameUtil.PERMISSION_REQ_CODE);
         }
+        PaintFactory.getInstance();
+        PaintFactory.generatePaintColor(this);
+
+        PreferenceLoader pl = PreferenceLoader.getInstance();
+        pl.init(getPreferences(MODE_PRIVATE));
     }
 
     @Override
@@ -82,5 +90,16 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     @Override
     public void changeToSetting() {
 
+    }
+
+
+    @Override
+    public void initiateFactory(Canvas canvas, int maxH, int maxW) {
+        this.presenter.initiateFactory((byte)3, canvas, maxH, maxW);
+    }
+
+    @Override
+    public void generateShape() {
+        this.presenter.generateShape();
     }
 }
