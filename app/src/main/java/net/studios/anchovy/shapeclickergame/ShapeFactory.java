@@ -14,16 +14,19 @@ public class ShapeFactory {
     private static ShapeFactory instance ;
     private static byte config;
     private static Canvas canvas;
+    private static int maxWidth, maxHeight;
 
     private LinkedList<Shape> pool[];
 
-    public static ShapeFactory getInstance(byte configuration, Canvas canvasInp) {
+    public static ShapeFactory getInstance(byte configuration, Canvas canvasInp, int maxH, int maxW) {
        if (instance == null) {
            instance = new ShapeFactory();
        }
 
        config = configuration;
        canvas = canvasInp;
+       maxHeight = maxH;
+       maxWidth = maxW;
 
        return instance;
     }
@@ -31,7 +34,7 @@ public class ShapeFactory {
     private ShapeFactory() {
     }
 
-    public Shape generateShape(int x, int y, int width, int height, double velocity, @Nullable String text) {
+    public Shape generateShape() {
         Shape res = null;
         int i = 0;
         int[]arrTemp = new int[3];
@@ -46,64 +49,85 @@ public class ShapeFactory {
                 }
             }
 
-            if (arrTemp[0] > arrTemp[1]) {
-                if (arrTemp[0] > arrTemp[2]) {
-                    res = searchForAvailableShape(0);
-                } else {
-                    res = searchForAvailableShape(2);
-                }
+            int x, y, max = GameUtil.max(arrTemp[0], arrTemp[1], arrTemp[2]);
+            if (max == arrTemp[0]) {
+                int
+            } else if (max == arrTemp[1]) {
+
             } else {
-                if (arrTemp[1] > arrTemp[2]) {
-                    res = searchForAvailableShape(1);
-                } else {
-                    res = searchForAvailableShape(2);
-                }
+
             }
 
             if (res == null) temp = config;
         }
 
-        res.setX(x);
-        res.setY(y);
-        res.setWidth(width);
-        res.setHeight(height);
-        if (text != null) {
-            res.setText(text);
-        }
-
         return res;
     }
 
-    private Shape searchForAvailableShape(int idx) {
-        if (this.pool[idx].size() == 0) {
-            Shape temp;
-            if (idx == 0) {
-                temp = new Rectangle(canvas);
-            } else {
-                temp = new Circle(canvas);
-            }
-            this.pool[idx].add(temp);
-            return temp;
+    private Shape searchForAvailableRectangle(int x, int y, int width, int height, @Nullable String text) {
+        Shape res = null;
+        if (this.pool[0].size() == 0) {
+            res = createRectangle(x,y,width,height,text);
+            this.pool[0].add(res);
         } else {
-            Iterator<Shape> it = this.pool[idx].iterator();
-            Shape temp = null;
+            Iterator<Shape> it = this.pool[0].iterator();
+            Rectangle temp = null;
             while (it.hasNext()) {
-                temp = it.next();
+                temp = (Rectangle) it.next();
                 if (!temp.isOnScreen()) {
-                    return temp;
+                    temp.setX(x);
+                    temp.setY(y);
+                    temp.setWidth(width);
+                    temp.setHeight(height);
+                    temp.setText(text);
+                    res = temp;
+                    break;
                 }
             }
 
             if (temp == null) {
-                if (idx == 0) {
-                    temp = new Rectangle(canvas);
-                } else {
-                    temp = new Circle(canvas);
+                res = createRectangle(x,y,width,height,text);
+                this.pool[0].add(res);
+            }
+        }
+        res.draw();
+        return res;
+    }
+
+    private Shape searchForAvailableCircle(int x, int y, int radius, @Nullable String text) {
+        Shape res = null;
+        if (this.pool[1].size() == 0) {
+            res = createCircle(x,y,radius,text);
+            this.pool[1].add(res);
+        } else {
+            Iterator<Shape> it = this.pool[1].iterator();
+            Circle temp = null;
+            while (it.hasNext()) {
+                temp = (Circle) it.next();
+                if (!temp.isOnScreen()) {
+                    temp.setX(x);
+                    temp.setY(y);
+                    temp.setRadius(radius);
+                    temp.setText(text);
+                    res = temp;
+                    break;
                 }
-                this.pool[idx].add(temp);
             }
 
-            return temp;
+            if (temp == null) {
+                res = createCircle(x,y,radius,text);
+                this.pool[1].add(res);
+            }
         }
+        res.draw();
+        return res;
+    }
+
+    private Rectangle createRectangle(int x, int y, int width, int height, @Nullable String text) {
+        return new Rectangle(canvas,x,y,0,width,height,text);
+    }
+
+    private Circle createCircle(int x, int y, int radius, @Nullable String text) {
+        return new Circle(canvas,x,y,0,radius,text);
     }
 }

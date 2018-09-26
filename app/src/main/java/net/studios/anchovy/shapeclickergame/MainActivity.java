@@ -14,7 +14,7 @@ import android.widget.Toast;
 import net.studios.anchovy.shapeclickergame.fragment.HomeFragment;
 import net.studios.anchovy.shapeclickergame.fragment.PlayFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements HomeFragment.HomeFragmentListener {
 
     private Presenter presenter;
     private HomeFragment homeFragment;
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         this.homeFragment = HomeFragment.newInstance(getLayoutInflater());
         this.playFragment = PlayFragment.newInstance(getLayoutInflater());
 
-        changeToPlayGameFragment();
+        changeToHomeFragment();
 
         int writeExternalStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
@@ -71,6 +71,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void changeToResultFragment() {
+
+    }
+
+    @Override
+    public void playGame() {
+        this.changeToPlayGameFragment();
+    }
+
+    @Override
+    public void changeToSetting() {
 
     }
 }

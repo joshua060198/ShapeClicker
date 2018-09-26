@@ -1,29 +1,25 @@
 package net.studios.anchovy.shapeclickergame.model;
 
 import android.graphics.Canvas;
+import android.support.annotation.Nullable;
 
 public abstract class Shape implements Drawable {
-    protected int x, y, width, height;
+    protected int x, y;
     protected double velocity;
     protected String text;
     protected Canvas canvas;
     protected boolean isOnScreen;
 
-    public Shape(Canvas canvas) {
+    public Shape(Canvas canvas, int x, int y, int velocity, @Nullable String text) {
         this.canvas = canvas;
-        this.x = 0;
-        this.y = 0;
-        this.width = 0;
-        this.height = 0;
-        this.velocity = 0;
+        this.x = x;
+        this.y = y;
+        this.velocity = velocity;
         this.isOnScreen = false;
+        this.text = text;
     }
 
     public abstract void move();
-
-    public void outOfScreen() {
-        this.isOnScreen = false;
-    }
 
     public int getX() {
         return x;
@@ -39,22 +35,6 @@ public abstract class Shape implements Drawable {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
     }
 
     public double getVelocity() {
@@ -75,5 +55,9 @@ public abstract class Shape implements Drawable {
 
     public boolean isOnScreen() {
         return isOnScreen;
+    }
+
+    public void setOnScreen(boolean onScreen) {
+        isOnScreen = onScreen;
     }
 }

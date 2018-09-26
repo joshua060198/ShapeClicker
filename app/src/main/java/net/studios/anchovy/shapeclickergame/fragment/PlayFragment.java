@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import net.studios.anchovy.shapeclickergame.HighScoreAdapter;
+import net.studios.anchovy.shapeclickergame.Presenter;
 import net.studios.anchovy.shapeclickergame.R;
 import net.studios.anchovy.shapeclickergame.ShapeFactory;
 import net.studios.anchovy.shapeclickergame.model.Shape;
@@ -26,16 +27,16 @@ import net.studios.anchovy.shapeclickergame.model.Shape;
 public class PlayFragment extends Fragment implements View.OnTouchListener {
 
     private ImageView imageView;
-    private Canvas canvas;
-    private Bitmap bitmap;
-    private ShapeFactory shapeFactory;
+    private Presenter presenter;
+    private PlayFragmentListener listener;
 
     public PlayFragment() {
         // Required empty public constructor
     }
 
-    public static PlayFragment newInstance(LayoutInflater inflater) {
+    public static PlayFragment newInstance(Presenter presenter) {
         PlayFragment fragment = new PlayFragment();
+        fragment.presenter = presenter;
         return fragment;
     }
 
@@ -46,52 +47,52 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_play, container, false);
 
-
-        RelativeLayout linearLayout = (RelativeLayout) v.findViewById(R.id.background);
-
-        AnimationDrawable animationDrawable = (AnimationDrawable) linearLayout.getBackground();
-
-        animationDrawable.setEnterFadeDuration(2500);
-        animationDrawable.setExitFadeDuration(2500);
-
         this.imageView = v.findViewById(R.id.canvas);
         imageView.post(new Runnable() {
             @Override
             public void run() {
-                bitmap = Bitmap.createBitmap(
+                Bitmap bitmap = Bitmap.createBitmap(
                         imageView.getWidth(),
                         imageView.getHeight(),
                         Bitmap.Config.ARGB_4444
                 );
                 imageView.setImageBitmap(bitmap);
-                canvas = new Canvas(bitmap);
+                Canvas canvas = new Canvas(bitmap);
+                listener.initiateFactory(canvas);
+
             }
         });
         imageView.setOnTouchListener(this);
-        this.shapeFactory = ShapeFactory.getInstance((byte) 1, this.canvas);
-        animationDrawable.start();
-
         return v;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
+        if (context instanceof PlayFragmentListener) {
+            this.listener = (PlayFragmentListener) context;
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        this.listener = null;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Log.d("tag", event.getX() + ", " + event.getY());
-        Paint p = new Paint();
-        p.setColor(getResources().getColor(R.color.colorPrimary));
-        this.canvas.drawCircle(event.getX(), event.getY(), 100, p);
-        v.invalidate();
+//        Log.d("tag", event.getX() + ", " + event.getY());
+//        Paint p = new Paint();
+//        p.setColor(getResources().getColor(R.color.colorPrimary));
+//        this.canvas.drawCircle(event.getX(), event.getY(), 100, p);
+//        v.invalidate();
 //        this.shapeFactory.generateShape((int) event.getX(), (int) event.getY(), 100, 100, 10.0, "ho");
-        return true;
+//        return true;
+    }
+
+    public interface PlayFragmentListener {
+        void initiateFactory(Canvas canvas);
     }
 }
