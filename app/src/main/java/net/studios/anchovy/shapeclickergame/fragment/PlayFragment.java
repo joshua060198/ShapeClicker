@@ -5,10 +5,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,17 +14,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
-import net.studios.anchovy.shapeclickergame.HighScoreAdapter;
 import net.studios.anchovy.shapeclickergame.PaintFactory;
 import net.studios.anchovy.shapeclickergame.Presenter;
 import net.studios.anchovy.shapeclickergame.R;
-import net.studios.anchovy.shapeclickergame.ShapeFactory;
 import net.studios.anchovy.shapeclickergame.model.PreferenceLoader;
 import net.studios.anchovy.shapeclickergame.model.Shape;
 
@@ -36,9 +29,10 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
     private TextView timer, highscore;
     private Presenter presenter;
     private PlayFragmentListener listener;
-    private int timeLeft;
+    private long timeLeft;
     private long prevTime;
     private PreferenceLoader preferenceLoader;
+    private CountDownTimer timerController;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -95,13 +89,35 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
     public void onResume() {
         super.onResume();
         int[] values = this.preferenceLoader.loadPlayPausedValue();
-        if(values[0] != 0) this.timeLeft = values[0];
+        if(values[0] != 0) {
+            this.timerController = new CountDownTimer(values[0], 7) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    long second = millisUntilFinished/1000;
+                    int milis = (int) millisUntilFinished%1000;
+                    timer.setText(String.format("%02d:%03d", second, milis));
+
+                    if(millisUntilFinished < 10000){
+                        timer.setTextColor(getResources().getColor(R.color.red));
+                    }
+                    timeLeft = millisUntilFinished;
+                }
+
+                @Override
+                public void onFinish() {
+                    timer.setText("00:000");
+                    this.cancel();
+                }
+            };
+            this.timerController.start();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
         this.preferenceLoader.savePlayPausedValue(0, timeLeft);
+        timerController.cancel();
     }
 
     @Override

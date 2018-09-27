@@ -33,13 +33,22 @@ public class PreferenceLoader {
         this.editor.commit();
     }
 
+    public void saveLong(String key, long data) {
+        this.editor.putLong(key, data);
+        this.editor.commit();
+    }
+
+    public long loadLong(String key){
+        return this.preference.getLong(key, 0);
+    }
+
     public int loadInt(String key) {
         return this.preference.getInt(key, 0);
 
     }
 
-    public void savePlayPausedValue(int score, int time) {
-        this.saveInt(GameUtil.TIME_KEY, time);
+    public void savePlayPausedValue(int score, long time) {
+        this.saveInt(GameUtil.TIME_KEY, (int) time);
         this.saveInt(GameUtil.SCORE, score);
     }
 
