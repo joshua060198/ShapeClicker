@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/background">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ts_20"
+            android:text="@string/highscore_text"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/highscore_text"
+            android:gravity="left"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/s_8"
+            android:layout_marginLeft="@dimen/s_8"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/ts_20"
+            android:text="@string/timer"
+            android:id="@+id/timer"
+            android:gravity="right"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/s_8"
+            android:layout_marginRight="@dimen/s_8"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/timer"
+            android:id="@+id/canvas"/>
+
+    </RelativeLayout>
+
+</FrameLayout>
