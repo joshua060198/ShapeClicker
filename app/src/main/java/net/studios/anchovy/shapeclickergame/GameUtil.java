@@ -12,10 +12,14 @@ public class GameUtil {
     public static final byte HARD_MAX_SHAPE = 10;
     public static final int MAX_WIDTH_SQUARE = 200;
     public static final int MAX_HEIGHT_SQUARE = 200;
-    public static final int MAX_RADIUS_CIRCLE = 150;
+    public static final int MAX_RADIUS_CIRCLE = 135;
     public static final int MIN_WIDTH_SQUARE = 50;
     public static final int MIN_HEIGHT_SQUARE = 50;
     public static final int MIN_RADIUS_CIRCLE = 50;
+
+    public static final int JARAK_SOAL = 300;
+    public static final int WARNA_GARIS_SOAL = 2;
+    public static final int STROKE_GARIS_SOAL = 10;
 
     //key untuk save ke preference
     public static final String TIME_KEY = "opeeennnsesameeeee";

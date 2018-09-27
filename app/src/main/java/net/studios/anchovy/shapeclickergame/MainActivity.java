@@ -102,4 +102,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     public void generateShape() {
         this.presenter.generateShape();
     }
+
+    @Override
+    public void generateSoal() {
+        this.presenter.generateSoal();
+    }
 }

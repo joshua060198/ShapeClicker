@@ -1,6 +1,7 @@
 package net.studios.anchovy.shapeclickergame;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
@@ -16,6 +17,7 @@ public class ShapeFactory {
     private static byte config;
     private static Canvas canvas;
     private static int maxWidth, maxHeight;
+    private Shape soal;
 
     private LinkedList<Shape> pool[];
     private LinkedList<Shape> active;
@@ -39,6 +41,7 @@ public class ShapeFactory {
             this.pool[i] = new LinkedList<>();
         }
         this.active = new LinkedList<>();
+        this.soal = null;
     }
 
     public Shape generateShape() {
@@ -57,6 +60,7 @@ public class ShapeFactory {
                 temp = temp >> 1;
             }
 
+            Paint paint = PaintFactory.getInstance().getPaint(GameUtil.randomInt(0,3));
             int max = GameUtil.max(arrTemp[0], arrTemp[1], arrTemp[2]);
             if (max == arrTemp[0]) {
                 int width = GameUtil.randomInt(GameUtil.MIN_WIDTH_SQUARE, GameUtil.MAX_WIDTH_SQUARE);
@@ -64,25 +68,31 @@ public class ShapeFactory {
                 int x = GameUtil.randomInt(0, maxWidth-width);
                 int y = GameUtil.randomInt(0, maxHeight-height);
                 int velocity = 0;
-                res = getAvailableRectangle(x,y,velocity,width,height,null);
+                res = getAvailableRectangle(x,y,velocity,width,height,null,paint);
             } else if (max == arrTemp[1]) {
                 int radius = GameUtil.randomInt(GameUtil.MIN_RADIUS_CIRCLE, GameUtil.MAX_RADIUS_CIRCLE);
                 int x = GameUtil.randomInt(radius, maxWidth-radius);
                 int y = GameUtil.randomInt(radius, maxHeight-radius);
                 int velocity = 0;
-                res = getAvailableCircle(x,y,velocity,radius,null);
+                res = getAvailableCircle(x,y,velocity,radius,null,paint);
             } else {
                 //TODO : FOR TRIANGLE
             }
 
             if (res == null || checkColliding(res))  {
-                Log.e("FFFFF", "AGAIN");
                 temp = config;
             }
         }
         active.add(res);
 
         return res;
+    }
+
+    public void showSoal() {
+        int count = this.active.size();
+        int choosen = GameUtil.randomInt(0,count-1);
+        this.soal = this.active.get(choosen);
+        this.soal.drawSoal(maxHeight, maxWidth);
     }
 
     private boolean checkColliding (Shape s1) {
@@ -92,10 +102,10 @@ public class ShapeFactory {
         return false;
     }
 
-    private Shape getAvailableRectangle(int x, int y, int velocity, int width, int height, @Nullable String text) {
+    private Shape getAvailableRectangle(int x, int y, int velocity, int width, int height, @Nullable String text, Paint paint) {
         Rectangle res;
         if (this.pool[0].size() == 0) {
-            res = createRectangle(x,y,velocity,width,height,text);
+            res = createRectangle(x,y,velocity,width,height,text,paint);
         } else {
             res = (Rectangle) this.pool[0].getFirst();
             res.setX(x);
@@ -104,6 +114,7 @@ public class ShapeFactory {
             res.setHeight(height);
             res.setText(text);
             res.setVelocity(velocity);
+            res.setPaint(paint);
             this.pool[0].add(res);
             this.pool[0].removeFirst();
         }
@@ -116,10 +127,10 @@ public class ShapeFactory {
         }
     }
 
-    private Shape getAvailableCircle(int x, int y, int velocity, int radius, @Nullable String text) {
+    private Shape getAvailableCircle(int x, int y, int velocity, int radius, @Nullable String text, Paint paint) {
         Circle res;
         if (this.pool[1].size() == 0) {
-            res = createCircle(x, y, velocity, radius, text);
+            res = createCircle(x, y, velocity, radius, text, paint);
         } else {
             res = (Circle) this.pool[1].getFirst();
             res.setX(x);
@@ -127,6 +138,7 @@ public class ShapeFactory {
             res.setRadius(radius);
             res.setText(text);
             res.setVelocity(velocity);
+            res.setPaint(paint);
             this.pool[1].add(res);
             this.pool[1].removeFirst();
         }
@@ -134,11 +146,11 @@ public class ShapeFactory {
         return res;
     }
 
-    private Rectangle createRectangle(int x, int y, int velocity, int width, int height, @Nullable String text) {
-        return new Rectangle(canvas,x,y,velocity,width,height,text);
+    private Rectangle createRectangle(int x, int y, int velocity, int width, int height, @Nullable String text, Paint paint) {
+        return new Rectangle(canvas,x,y,velocity,width,height,text,paint);
     }
 
-    private Circle createCircle(int x, int y, int velocity, int radius, @Nullable String text) {
-        return new Circle(canvas,x,y,velocity,radius,text);
+    private Circle createCircle(int x, int y, int velocity, int radius, @Nullable String text, Paint paint) {
+        return new Circle(canvas,x,y,velocity,radius,text,paint);
     }
 }

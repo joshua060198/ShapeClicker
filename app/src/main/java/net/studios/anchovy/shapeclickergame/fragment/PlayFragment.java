@@ -38,8 +38,6 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
     private PlayFragmentListener listener;
     private int timeLeft;
     private long prevTime;
-    private Runnable timerRunnable;
-    private Handler timerHandler;
     private PreferenceLoader preferenceLoader;
 
     public PlayFragment() {
@@ -73,42 +71,18 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
                 );
                 imageView.setImageBitmap(bitmap);
                 Canvas canvas = new Canvas(bitmap);
-                listener.initiateFactory(canvas, imageView.getHeight()-300, imageView.getWidth());
-                Paint line = PaintFactory.getInstance().getPaint(2);
-                line.setStrokeWidth(10);
-                canvas.drawLine(0,imageView.getHeight()-300,imageView.getWidth(),imageView.getHeight()-300, line);
+                listener.initiateFactory(canvas, imageView.getHeight()-GameUtil.JARAK_SOAL, imageView.getWidth());
+                Paint line = PaintFactory.getInstance().getPaint(GameUtil.WARNA_GARIS_SOAL);
+                line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
+                canvas.drawLine(0,imageView.getHeight()- GameUtil.JARAK_SOAL,imageView.getWidth(),imageView.getHeight()- GameUtil.JARAK_SOAL, line);
                 for (int i = 0; i < 10; i++) listener.generateShape();
+                listener.generateSoal();
                 imageView.invalidate();
             }
         });
         imageView.setOnTouchListener(this);
         imageView.invalidate();
 
-        this.timerHandler = new Handler();
-        this.timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                long currentTime = System.currentTimeMillis();
-                timeLeft -= currentTime - prevTime;
-                int second = timeLeft/1000;
-                int milis = timeLeft%1000;
-
-                timer.setText(String.format("%02d:%03d", second, milis));
-
-                prevTime = currentTime;
-
-                if(timeLeft > 0){
-                    timerHandler.postDelayed(this, 7);
-                }else{
-                    timer.setText("00:000");
-                    endGame();
-                }
-
-                if(timeLeft < 10000){
-                    timer.setTextColor(getResources().getColor(R.color.red));
-                }
-            }
-        };
         this.preferenceLoader = PreferenceLoader.getInstance();
         return v;
     }
@@ -162,5 +136,6 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
     public interface PlayFragmentListener {
         void initiateFactory(Canvas canvas, int maxH, int maxW);
         void generateShape();
+        void generateSoal();
     }
 }

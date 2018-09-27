@@ -11,8 +11,8 @@ public class Rectangle extends Shape {
 
     private int width, height;
 
-    public Rectangle(Canvas canvas, int x, int y, int velocity, int width, int height, @Nullable String text) {
-        super(canvas, x, y, velocity, text);
+    public Rectangle(Canvas canvas, int x, int y, int velocity, int width, int height, @Nullable String text, Paint paint) {
+        super(canvas, x, y, velocity, text, paint);
         this.width = width;
         this.height = height;
     }
@@ -24,7 +24,7 @@ public class Rectangle extends Shape {
 
     @Override
     public void draw() {
-        this.canvas.drawRect(x,y,x+width,y+height,this.paintFactory.getPaint(GameUtil.randomInt(0,3)));
+        this.canvas.drawRect(x,y,x+width,y+height,paint);
     }
 
     @Override
@@ -39,6 +39,13 @@ public class Rectangle extends Shape {
         } else if (other instanceof Circle) {
             return isCollideRectWithCircle((Circle)other, this);
         } else return false;
+    }
+
+    @Override
+    public void drawSoal(int maxHeight, int maxWidth) {
+        float x = (maxWidth/2.0f) - (this.width/2.0f);
+        float y = maxHeight + ((GameUtil.JARAK_SOAL-this.height)/2.0f);
+        this.canvas.drawRect(x,y,x+this.width,y+this.height,paint);
     }
 
     public int getWidth() {

@@ -14,4 +14,8 @@ public class Presenter {
         this.shapeFactory.generateShape();
         this.shapeFactory.drawAll();
     }
+
+    public void generateSoal() {
+        this.shapeFactory.showSoal();
+    }
 }
