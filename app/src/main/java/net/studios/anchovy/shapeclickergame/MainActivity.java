@@ -1,6 +1,7 @@
 package net.studios.anchovy.shapeclickergame;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     private Presenter presenter;
     private HomeFragment homeFragment;
     private PlayFragment playFragment;
+    private PreferenceLoader preferenceLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     @Override
     public void playGame() {
+        PreferenceLoader.getInstance().saveInt(GameUtil.TIME_KEY, 60000);
         this.changeToPlayGameFragment();
     }
 
