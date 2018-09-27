@@ -23,14 +23,15 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_result);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         this.homeFragment = HomeFragment.newInstance(getLayoutInflater());
-        this.playFragment = PlayFragment.newInstance(getLayoutInflater());
+        //this.playFragment = PlayFragment.newInstance(getLayoutInflater());
 
-        changeToHomeFragment();
+        //changeToHomeFragment();
+
 
         int writeExternalStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 

@@ -51,7 +51,7 @@ public class ShapeFactory {
 
             int x, y, max = GameUtil.max(arrTemp[0], arrTemp[1], arrTemp[2]);
             if (max == arrTemp[0]) {
-                int
+
             } else if (max == arrTemp[1]) {
 
             } else {

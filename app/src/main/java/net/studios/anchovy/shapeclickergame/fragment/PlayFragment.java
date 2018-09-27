@@ -89,7 +89,7 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
 //        this.canvas.drawCircle(event.getX(), event.getY(), 100, p);
 //        v.invalidate();
 //        this.shapeFactory.generateShape((int) event.getX(), (int) event.getY(), 100, 100, 10.0, "ho");
-//        return true;
+        return true;
     }
 
     public interface PlayFragmentListener {
