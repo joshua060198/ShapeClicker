@@ -103,4 +103,8 @@ public abstract class Shape implements Drawable {
             return false;
         }
     }
+
+    public void setOnScreen(boolean onScreen) {
+        isOnScreen = onScreen;
+    }
 }
