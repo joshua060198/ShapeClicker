@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="setting_game_max_shape_entry">
+        <item>5 Shapes</item>
+        <item>8 Shapes</item>
+        <item>10 Shapes</item>
+        <item>13 Shapes</item>
+        <item>15 Shapes</item>
+    </string-array>
+
+    <string-array name="setting_game_max_shape_values">
+        <item>5</item>
+        <item>8</item>
+        <item>10</item>
+        <item>13</item>
+        <item>15</item>
+    </string-array>
+</resources>

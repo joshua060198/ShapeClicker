@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="User Setting">
+
+        <EditTextPreference
+            android:inputType="textPersonName"
+            android:defaultValue="User"
+            android:key="@string/setting_user_profile_username"
+            android:title="Insert your name"
+            android:summary="User"/>
+
+        <Preference
+            android:title="Select profile image"
+            android:key="@string/setting_user_profile_picture"
+            android:summary="Set user profile picture"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Game Setting">
+
+        <PreferenceScreen
+            android:title="Shape"
+            android:key="@string/setting_game_shape_button"
+            android:persistent="false">
+
+            <PreferenceCategory
+                android:title="Type">
+
+                <CheckBoxPreference
+                    android:key="@string/setting_game_shape_rect"
+                    android:title="Rectangle"
+                    android:defaultValue="true"
+                    android:editable="false"/>
+
+                <CheckBoxPreference
+                    android:key="@string/setting_game_shape_circle"
+                    android:title="Circle"
+                    android:defaultValue="false"/>
+
+            </PreferenceCategory>
+
+            <ListPreference
+                android:title="Maximum Shape in Screen"
+                android:key="@string/setting_game_max_shape_total"
+                android:entries="@array/setting_game_max_shape_entry"
+                android:entryValues="@array/setting_game_max_shape_values"
+                android:dialogTitle="Total Shapes"
+                android:defaultValue="5 Shapes"/>
+
+        </PreferenceScreen>
+
+        <SwitchPreference
+            android:title="Sound"
+            android:key="@string/setting_game_sound"
+            android:summary="Turn on/off backround music"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

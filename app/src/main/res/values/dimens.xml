@@ -4,12 +4,16 @@
     <dimen name="start_button_size_height">120dp</dimen>
     <dimen name="highscore_item_width">100dp</dimen>
     <dimen name="highscore_item_height">60dp</dimen>
+    <dimen name="highscore_item_rect">125dp</dimen>
 
     <dimen name="s_8">8dp</dimen>
     <dimen name="s_16">16dp</dimen>
     <dimen name="s_20">20dp</dimen>
+    <dimen name="s_75">75dp</dimen>
 
     <dimen name="ts_16">16sp</dimen>
     <dimen name="ts_20">20sp</dimen>
     <dimen name="ts_25">25sp</dimen>
+    <dimen name="ts_30">30sp</dimen>
+
 </resources>

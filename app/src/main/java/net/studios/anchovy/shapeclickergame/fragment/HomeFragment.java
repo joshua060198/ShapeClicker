@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.start_button).setOnClickListener(this);
         v.findViewById(R.id.setting_button).setOnClickListener(this);
 
-        RelativeLayout linearLayout = (RelativeLayout) v.findViewById(R.id.background);
+        RelativeLayout linearLayout = v.findViewById(R.id.background);
 
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayout.getBackground();
 

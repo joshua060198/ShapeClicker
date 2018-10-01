@@ -1,6 +1,7 @@
 package net.studios.anchovy.shapeclickergame.model;
 
 import android.content.SharedPreferences;
+import android.preference.Preference;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
 
@@ -9,8 +10,8 @@ import java.io.IOException;
 public class PreferenceLoader {
 
     private static PreferenceLoader loader;
-    private SharedPreferences preference;
-    private SharedPreferences.Editor editor;
+    private SharedPreferences sp, preference;
+    private SharedPreferences.Editor editor, preferenceEditor;
 
     private PreferenceLoader() {
 
@@ -23,39 +24,69 @@ public class PreferenceLoader {
         return loader;
     }
 
-    public void init(SharedPreferences preference) {
+    public void init(SharedPreferences sp, SharedPreferences preference) {
+        this.sp = sp;
         this.preference = preference;
-        this.editor = this.preference.edit();
+        this.editor = this.sp.edit();
+        this.preferenceEditor = this.preference.edit();
     }
 
-    public void saveInt(String key, int data) {
+    private void saveInt(String key, int data) {
         this.editor.putInt(key, data);
         this.editor.commit();
     }
 
-    public void saveLong(String key, long data) {
+    private void saveLong(String key, long data) {
         this.editor.putLong(key, data);
         this.editor.commit();
     }
 
-    public long loadLong(String key){
-        return this.preference.getLong(key, 0);
+    private long loadLong(String key){
+        return this.sp.getLong(key, 0);
     }
 
-    public int loadInt(String key) {
-        return this.preference.getInt(key, 0);
-
+    private int loadInt(String key) {
+        return this.sp.getInt(key, 0);
     }
 
-    public void savePlayPausedValue(int score, long time) {
-        this.saveInt(GameUtil.TIME_KEY, (int) time);
+    public byte loadLastState() {
+        return (byte) this.loadInt(GameUtil.STATE);
+    }
+
+    public void saveState(byte state) { this.saveInt(GameUtil.STATE, state); }
+
+    public void saveTimerCountDownTime(long time) {
+        this.saveLong(GameUtil.TIME_KEY, time);
+    }
+
+    public void saveCurrentScore(int score) {
         this.saveInt(GameUtil.SCORE, score);
     }
 
-    public int[] loadPlayPausedValue() {
-        int[] result = new  int[2];
-        result[0] = loadInt(GameUtil.TIME_KEY);
-        result[1] = loadInt(GameUtil.SCORE);
-        return result;
+    public long loadTimerCountDownTime() {
+        return this.loadLong(GameUtil.TIME_KEY);
     }
+
+    public int loadLastScore() {
+        return this.loadInt(GameUtil.SCORE);
+    }
+
+    public String loadUserName() {
+        return this.preference.getString(GameUtil.USER_NAME, "USER");
+    }
+
+    public String loadUserPic() {
+        //TODO
+        return this.preference.getString(GameUtil.USER_PIC, "");
+    }
+
+    public int loadUserScore() {
+        return this.preference.getInt(GameUtil.USER_SCORE, 0);
+    }
+
+    public long loadLastPlayed() {
+        return this.preference.getLong(GameUtil.USER_LAST_PLAYED, 0);
+    }
+
+    public int loadSettingMaxShapes(String key) { return Integer.parseInt(this.preference.getString(key, "5")); }
 }
