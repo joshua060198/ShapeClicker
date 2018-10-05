@@ -58,4 +58,20 @@ public class PreferenceLoader {
         result[1] = loadInt(GameUtil.SCORE);
         return result;
     }
+
+    public void saveUserData(String s){
+        this.editor.putString(GameUtil.USER_DATA, s);
+    }
+
+    public String loadUserData() {
+        return this.preference.getString(GameUtil.USER_DATA, "");
+    }
+
+    public void saveStateData(String s){
+        this.editor.putString(GameUtil.STATE_DATA, s);
+    }
+
+    public String loadStateData() {
+        return this.preference.getString(GameUtil.STATE_DATA, "");
+    }
 }

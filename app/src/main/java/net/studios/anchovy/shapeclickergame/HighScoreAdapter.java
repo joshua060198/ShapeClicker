@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.studios.anchovy.shapeclickergame.model.JsonParser;
 import net.studios.anchovy.shapeclickergame.model.User;
 
 import java.text.SimpleDateFormat;
@@ -103,5 +104,9 @@ public class HighScoreAdapter extends BaseAdapter {
     private String convertTime(long time) {
         this.date.setTime(time);
         return this.sdf.format(this.date);
+    }
+
+    public ArrayList<User> getData() {
+        return data;
     }
 }

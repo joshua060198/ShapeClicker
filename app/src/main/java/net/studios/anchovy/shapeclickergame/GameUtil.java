@@ -24,6 +24,8 @@ public class GameUtil {
     //key untuk save ke preference
     public static final String TIME_KEY = "opeeennnsesameeeee";
     public static final String SCORE = "leroyjenkins";
+    public static final String USER_DATA = "smokeweedeveryday";
+    public static final String STATE_DATA = "statedoesntmatter";
 
     private static final Random r = new Random();
 
