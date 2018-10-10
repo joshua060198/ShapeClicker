@@ -17,7 +17,7 @@ public class ShapeFactory {
     private static byte config;
     private static Canvas canvas;
     private static int maxWidth, maxHeight;
-    private Shape soal;
+    private Shape soal,tapped;
 
     private LinkedList<Shape> pool[];
     private LinkedList<Shape> active;
@@ -42,10 +42,10 @@ public class ShapeFactory {
         }
         this.active = new LinkedList<>();
         this.soal = null;
+        this.tapped = null;
     }
 
     public Shape generateShape() {
-//        Shape res = new Rectangle(canvas, 10,10,0,100,100,null);
         Shape res = null;
         int[]arrTemp = new int[3];
         int temp = config;
@@ -60,7 +60,7 @@ public class ShapeFactory {
                 temp = temp >> 1;
             }
 
-            Paint paint = PaintFactory.getInstance().getPaint(GameUtil.randomInt(0,3));
+            Paint paint = PaintFactory.getInstance().getPaint();
             int max = GameUtil.max(arrTemp[0], arrTemp[1], arrTemp[2]);
             if (max == arrTemp[0]) {
                 int width = GameUtil.randomInt(GameUtil.MIN_WIDTH_SQUARE, GameUtil.MAX_WIDTH_SQUARE);
@@ -95,6 +95,46 @@ public class ShapeFactory {
         this.soal.drawSoal(maxHeight, maxWidth);
     }
 
+    public boolean isTappedInsideAShape(float x, float y) {
+//        Log.d("DEBUG", "TOTAL: " + active.size());
+        for (Shape anActive : active) {
+            tapped = anActive;
+//            Log.d("DEBUG", "TAPPED = " + tapped.getX() + " " + tapped.getY() + "CLICKED = " + x + " " + y);
+            if (this.tapped.isInside(x, y)) {
+//                Log.d("DEBUG", "INSIDE");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isTappedCorrectly() {
+//        Log.d("DEBUG", "TAPPED CORRECTLY");
+        return this.tapped == this.soal;
+    }
+
+    public void clearSoal() {
+        this.tapped.clear();
+        if (this.tapped instanceof Rectangle) {
+            this.pool[0].add(this.tapped);
+        } else if (this.tapped instanceof Circle) {
+            this.pool[1].add(this.tapped);
+        }
+        this.active.remove(this.tapped);
+        this.soal.clearSoal(maxWidth, maxHeight);
+        this.tapped = null;
+        this.soal = null;
+    }
+
+    public void clearAll() {
+        for (LinkedList ll:pool) {
+            ll.clear();
+        }
+        active.clear();
+        this.soal = null;
+        this.tapped = null;
+    }
+
     private boolean checkColliding (Shape s1) {
         for (Shape s : active) {
             if (s1.isCollide(s)) return true;
@@ -115,7 +155,6 @@ public class ShapeFactory {
             res.setText(text);
             res.setVelocity(velocity);
             res.setPaint(paint);
-            this.pool[0].add(res);
             this.pool[0].removeFirst();
         }
         return res;
@@ -139,7 +178,6 @@ public class ShapeFactory {
             res.setText(text);
             res.setVelocity(velocity);
             res.setPaint(paint);
-            this.pool[1].add(res);
             this.pool[1].removeFirst();
         }
 

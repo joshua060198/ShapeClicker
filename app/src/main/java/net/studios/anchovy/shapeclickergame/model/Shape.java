@@ -72,6 +72,12 @@ public abstract class Shape implements Drawable {
 
     public abstract void drawSoal(int maxHeight, int maxWidth);
 
+    public abstract boolean isInside(float x, float y);
+
+    public abstract void clear();
+
+    public abstract void clearSoal(int maxWidth, int maxHeight);
+
     protected boolean isCollideRectWithRect(Rectangle r1, Rectangle r2) {
         if(r1.getX() < r2.getX() + r2.getWidth() &&
                 r1.getX() + r1.getWidth() > r2.getX() &&

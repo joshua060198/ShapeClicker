@@ -28,7 +28,7 @@ public class HighScoreAdapter extends BaseAdapter {
         this.data = new ArrayList<>();
         this.layoutInflater = layoutInflater;
         this.date = new Date();
-        this.sdf = new SimpleDateFormat("dd/mm/yy hh:mm:ss", Locale.getDefault());
+        this.sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss", Locale.getDefault());
     }
 
     @Override
@@ -81,23 +81,13 @@ public class HighScoreAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public String convertUserToString() {
-        String res = "";
-        for (User u:this.data) {
-            res += u.toString();
-            res += "\n";
-        }
-
-        return res;
+    public ArrayList<User> getData() {
+        return data;
     }
 
-    public void loadUser(String listUser) {
-        String users[] = listUser.split("\n");
-        String temp[];
-        for (String user : users) {
-            temp = user.split(",");
-            this.data.add(new User(temp[1], Integer.parseInt(temp[2]), Long.parseLong(temp[3]), temp[4]));
-        }
+    public void loadData(ArrayList<User> data) {
+        if (data != null) this.data = data;
+        notifyDataSetChanged();
     }
 
     private String convertTime(long time) {

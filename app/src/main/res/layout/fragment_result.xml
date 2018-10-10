@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ResultFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background_anim"
+        android:id = "@+id/result">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/highscore_text"
+            android:gravity="center_horizontal"
+            android:textSize="@dimen/ts_30"
+            android:layout_marginTop="@dimen/s_20"
+            android:id="@+id/highscore_res" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Show here"
+            android:layout_below="@+id/highscore_res"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/s_16"
+            android:id="@+id/score_res"/>
+
+        <ImageView
+            android:layout_width="@dimen/highscore_item_rect"
+            android:layout_height="@dimen/highscore_item_rect"
+            android:id="@+id/res_user_pic"
+            android:layout_below="@+id/score_res"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/s_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/res_user_pic"
+            android:layout_centerHorizontal="true"
+            android:hint="My Name"
+            android:textSize="@dimen/ts_16"
+            android:layout_marginTop="@dimen/s_16"
+            android:id="@+id/res_user_name" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/res_user_name"
+            android:layout_marginTop="@dimen/s_16">
+
+            <TextView
+                android:id="@+id/no_clicks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_20"
+                android:text="@string/no_of_clicks"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_per"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks"
+                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:text="@string/correct_per"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_rect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks_per"
+                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:text="@string/no_of_rect"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks_rect"
+                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:text="@string/no_of_circle"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_tri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks_circle"
+                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:text="@string/no_of_triangle"
+                android:layout_alignParentLeft="true"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/btn_menu_game"
+            android:text="@string/menu_text"
+            android:background="@color/lightGrey"
+            android:layout_marginBottom="@dimen/s_16"
+            android:layout_marginLeft="@dimen/s_75"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="@string/try_again_text"
+            android:background="@color/lightGrey"
+            android:layout_marginBottom="@dimen/s_16"
+            android:layout_marginRight="@dimen/s_75"/>
+
+    </RelativeLayout>
+
+
+</FrameLayout>

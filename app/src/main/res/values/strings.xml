@@ -5,8 +5,33 @@
     <string name="name_text">Name</string>
     <string name="score_text">Score</string>
     <string name="last_played_text">Last Played</string>
+    <string name="titik_dua">:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="timer">00:000</string>
+    <string name="end_game_text">End Game</string>
+
+    <string name="stop_game_dialog">Are you sure to end the game?</string>
+    <string name="exit_app_dialog">Are you sure to exit?</string>
+    <string name="yes_text">Yes</string>
+    <string name="no_text">No</string>
+
+    <string name="no_of_clicks">Number of Clicks: </string>
+    <string name="correct_per">Correct Percentage: </string>
+    <string name="no_of_rect">Number of Correct Rectangle: </string>
+    <string name="no_of_circle">Number of Correct Circle:  </string>
+    <string name="no_of_triangle">Number of Correct Triangle: </string>
+    <string name="menu_text">Menu</string>
+    <string name="try_again_text">Try Again</string>
+
+    //KEY
+    <string name="setting_user_profile_username">setting_user_profile_username</string>
+    <string name="setting_user_profile_picture">setting_user_profile_picture</string>
+    <string name="setting_game_shape_button">setting_user_profile_username</string>
+    <string name="setting_game_shape_rect">setting_game_shape_rect</string>
+    <string name="setting_game_shape_circle">setting_game_shape_circle</string>
+    <string name="setting_game_max_shape_total">setting_game_max_shape_total</string>
+    <string name="setting_game_sound">setting_game_sound</string>
+    <string name="setting_game_shape_color">setting_game_shape_color</string>
 </resources>

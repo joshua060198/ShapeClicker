@@ -1,45 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.HomeFragment">
+    tools:context=".fragment.PlayFragment">
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/background">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/ts_20"
-            android:text="@string/highscore_text"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
             android:id="@+id/highscore_text"
-            android:gravity="left"
-            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/s_8"
             android:layout_marginTop="@dimen/s_8"
-            android:layout_marginLeft="@dimen/s_8"/>
+            android:text="@string/score_text"
+            android:textSize="@dimen/ts_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/highscore_titik_dua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/s_8"
+            android:layout_marginTop="@dimen/s_8"
+            android:text="@string/titik_dua"
+            android:textSize="@dimen/ts_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/highscore_text"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/highscore_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="@dimen/ts_20"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/highscore_titik_dua"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/timer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/ts_20"
-            android:text="@string/timer"
-            android:id="@+id/timer"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="right"
+            android:text="@string/timer"
+            android:textSize="@dimen/ts_20"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/s_8"
-            android:layout_marginRight="@dimen/s_8"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/time_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/highscore_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:indeterminate="false"
+            android:max="60000"
+            android:minHeight="@dimen/s_16"
+            android:progress="0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/highscore_text" />
 
         <ImageView
+            android:id="@+id/canvas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_below="@id/timer"
-            android:id="@+id/canvas"/>
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_progress" />
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/play_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@string/end_game_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>
