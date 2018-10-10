@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="setting_game_max_shape_entry">
+        <item>5 Shapes</item>
+        <item>8 Shapes</item>
+        <item>10 Shapes</item>
+        <item>13 Shapes</item>
+        <item>15 Shapes</item>
+    </string-array>
+
+    <string-array name="setting_game_max_shape_values">
+        <item>5</item>
+        <item>8</item>
+        <item>10</item>
+        <item>13</item>
+        <item>15</item>
+    </string-array>
+
+    <string-array name="setting_game_shape_color_entry">
+        <item>RGB Color</item>
+        <item>Random Color</item>
+    </string-array>
+
+    <string-array name="setting_game_shape_color_values">
+        <item>RGB COLOR</item>
+        <item>RANDOM COLOR</item>
+    </string-array>
+</resources>

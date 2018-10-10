@@ -14,6 +14,9 @@ import android.widget.RelativeLayout;
 
 import net.studios.anchovy.shapeclickergame.HighScoreAdapter;
 import net.studios.anchovy.shapeclickergame.R;
+import net.studios.anchovy.shapeclickergame.model.User;
+
+import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -42,7 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.start_button).setOnClickListener(this);
         v.findViewById(R.id.setting_button).setOnClickListener(this);
 
-        RelativeLayout linearLayout = (RelativeLayout) v.findViewById(R.id.background);
+        RelativeLayout linearLayout = v.findViewById(R.id.background);
 
         AnimationDrawable animationDrawable = (AnimationDrawable) linearLayout.getBackground();
 
@@ -83,6 +86,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public void addUserToHighScore(String name, String path, int score, long time) {
         this.adapter.addUser(name, path, time, score);
+    }
+
+    public ArrayList<User> getHighScoreData() {
+        return this.adapter.getData();
+    }
+
+    public void loadHighScore(ArrayList<User> data) {
+        this.adapter.loadData(data);
     }
 
     public interface HomeFragmentListener {

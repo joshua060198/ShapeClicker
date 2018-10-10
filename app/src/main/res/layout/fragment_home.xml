@@ -57,7 +57,7 @@
                 android:text="@string/image_text"/>
 
             <TextView
-                android:layout_width="120dp"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_name_t"
                 android:layout_toEndOf="@id/user_pic_t"
@@ -65,10 +65,12 @@
                 android:gravity="center_horizontal"/>
 
             <TextView
-                android:layout_width="@dimen/highscore_item_height"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/user_score_t"
-                android:layout_toStartOf="@id/user_last_played_t"
+                android:layout_toEndOf="@id/user_name_t"
+                android:gravity="center_horizontal"
+                android:paddingStart="@dimen/s_20"
                 android:text="@string/score_text"/>
 
             <TextView
@@ -76,7 +78,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/user_last_played_t"
                 android:layout_alignParentEnd="true"
-                android:gravity="center_horizontal"
+                android:gravity="start"
+                android:paddingStart="@dimen/s_16"
                 android:text="@string/last_played_text"/>
 
         </RelativeLayout>

@@ -9,30 +9,36 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
+import net.studios.anchovy.shapeclickergame.MyAlertDialogBuilder;
 import net.studios.anchovy.shapeclickergame.PaintFactory;
 import net.studios.anchovy.shapeclickergame.Presenter;
 import net.studios.anchovy.shapeclickergame.R;
-import net.studios.anchovy.shapeclickergame.model.PreferenceLoader;
-import net.studios.anchovy.shapeclickergame.model.Shape;
 
-public class PlayFragment extends Fragment implements View.OnTouchListener {
+import java.util.Locale;
+
+public class PlayFragment extends Fragment implements View.OnTouchListener, GestureDetector.OnGestureListener, View.OnClickListener {
 
     private ImageView imageView;
     private TextView timer, highscore;
+    private ProgressBar timeProgress;
     private Presenter presenter;
     private PlayFragmentListener listener;
     private long timeLeft;
     private long prevTime;
-    private PreferenceLoader preferenceLoader;
     private CountDownTimer timerController;
+    private int currentScore, maxH, maxW;
+    private GestureDetector gestureDetector;
+    private Canvas canvas;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -44,7 +50,6 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
         return fragment;
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,49 +58,49 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
 
         this.imageView = v.findViewById(R.id.canvas);
         this.timer = v.findViewById(R.id.timer);
-        this.highscore = v.findViewById(R.id.highscore_text);
+        this.highscore = v.findViewById(R.id.highscore_score);
+        this.timeProgress = v.findViewById(R.id.time_progress);
+        this.gestureDetector = new GestureDetector(getContext(), this);
+
+        v.findViewById(R.id.play_end).setOnClickListener(this);
 
         imageView.post(new Runnable() {
             @Override
             public void run() {
+                maxH = imageView.getHeight();
+                maxW = imageView.getWidth();
                 Bitmap bitmap = Bitmap.createBitmap(
-                        imageView.getWidth(),
-                        imageView.getHeight(),
+                        maxW,
+                        maxH,
                         Bitmap.Config.ARGB_4444
                 );
                 imageView.setImageBitmap(bitmap);
-                Canvas canvas = new Canvas(bitmap);
-                listener.initiateFactory(canvas, imageView.getHeight()-GameUtil.JARAK_SOAL, imageView.getWidth());
-                Paint line = PaintFactory.getInstance().getPaint(GameUtil.WARNA_GARIS_SOAL);
-                line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
-                canvas.drawLine(0,imageView.getHeight()- GameUtil.JARAK_SOAL,imageView.getWidth(),imageView.getHeight()- GameUtil.JARAK_SOAL, line);
-                for (int i = 0; i < 10; i++) listener.generateShape();
+                canvas = new Canvas(bitmap);
+                resetCanvas();
+                int maxShapes = listener.loadMaxShapes();
+                for (int i = 0; i < maxShapes; i++) listener.generateShape();
                 listener.generateSoal();
                 imageView.invalidate();
             }
         });
         imageView.setOnTouchListener(this);
         imageView.invalidate();
-
-        this.preferenceLoader = PreferenceLoader.getInstance();
         return v;
-    }
-
-    public void endGame(){
-        this.preferenceLoader.savePlayPausedValue(0,60000);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        int[] values = this.preferenceLoader.loadPlayPausedValue();
-        if(values[0] != 0) {
-            this.timerController = new CountDownTimer(values[0], 7) {
+        long time = listener.loadTime();
+        currentScore = listener.loadScore();
+        if(time != 0) {
+            this.timerController = new CountDownTimer(time, 7) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     long second = millisUntilFinished/1000;
                     int milis = (int) millisUntilFinished%1000;
-                    timer.setText(String.format("%02d:%03d", second, milis));
+                    timer.setText(String.format(Locale.getDefault(), "%02d:%03d", second, milis));
+                    timeProgress.setProgress((int)(60000-millisUntilFinished));
 
                     if(millisUntilFinished < 10000){
                         timer.setTextColor(getResources().getColor(R.color.red));
@@ -106,7 +111,10 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
                 @Override
                 public void onFinish() {
                     timer.setText("00:000");
+                    timeLeft = 60000;
+                    currentScore = 0;
                     this.cancel();
+                    listener.goToResult();
                 }
             };
             this.timerController.start();
@@ -116,7 +124,10 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
     @Override
     public void onPause() {
         super.onPause();
-        this.preferenceLoader.savePlayPausedValue(0, timeLeft);
+        listener.saveTime(timeLeft);
+        listener.saveScore(currentScore);
+        listener.updateScore(currentScore);
+        listener.updateLastPlayed(System.currentTimeMillis());
         timerController.cancel();
     }
 
@@ -137,21 +148,102 @@ public class PlayFragment extends Fragment implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-//        Log.d("tag", event.getX() + ", " + event.getY());
-//        Paint p = new Paint();
-//        p.setColor(getResources().getColor(R.color.colorPrimary));
-//        this.canvas.drawCircle(event.getX(), event.getY(), 100, p);
-//        v.invalidate();
-//        this.shapeFactory.generateShape((int) event.getX(), (int) event.getY(), 100, 100, 10.0, "ho");
-        listener.generateShape();
-        imageView.invalidate();
-//        Toast.makeText(getContext(), "YES", Toast.LENGTH_SHORT).show();
+        return gestureDetector.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean onDown(MotionEvent e) {
         return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        if (listener.isTappedInsideAShape(e.getX(), e.getY())) {
+            if(listener.isTappedCorrectly()) {
+                currentScore += GameUtil.ANSWER_CORRECT;
+                this.listener.clearSoal();
+                this.listener.generateShape();
+                this.listener.generateSoal();
+            } else {
+                currentScore += GameUtil.ANSWER_WRONG;
+            }
+            this.highscore.setText(String.format(Locale.getDefault(), "%d", this.currentScore));
+        }
+        return true;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return true;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.play_end:
+                MyAlertDialogBuilder.getInstance().showEndGameDialog();
+                break;
+        }
+    }
+
+    public int getMaxH() {
+        return maxH;
+    }
+
+    public int getMaxW() {
+        return maxW;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        listener.clearAll();
+        resetCanvas();
+    }
+
+    private void resetCanvas() {
+        canvas.drawColor(getResources().getColor(android.R.color.white));
+        listener.initiateFactory(canvas, maxH-GameUtil.JARAK_SOAL, maxW);
+        Paint line = PaintFactory.getInstance().getPaintByCode(GameUtil.WARNA_GARIS_SOAL);
+        line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
+        canvas.drawLine(0,maxH- GameUtil.JARAK_SOAL,maxW,maxH- GameUtil.JARAK_SOAL, line);
     }
 
     public interface PlayFragmentListener {
         void initiateFactory(Canvas canvas, int maxH, int maxW);
         void generateShape();
         void generateSoal();
+        void clearSoal();
+        void saveTime(long time);
+        void saveScore(int score);
+        int loadScore();
+        long loadTime();
+        int loadMaxShapes();
+        boolean isTappedCorrectly();
+        boolean isTappedInsideAShape(float x, float y);
+        void goToResult();
+        void clearAll();
+        void updateScore(int currentScore);
+        void updateLastPlayed(long lastPlayed);
     }
 }

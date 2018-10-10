@@ -9,6 +9,7 @@ import java.util.LinkedList;
 public class PaintFactory {
     private static PaintFactory instance;
     private static HashMap<Integer, Paint> paintList;
+    private static String config;
 
     public static PaintFactory getInstance() {
         if (instance == null) instance = new PaintFactory();
@@ -19,25 +20,48 @@ public class PaintFactory {
         paintList = new HashMap<>();
     }
 
-    public static void generatePaintColor(Context context) {
-        Paint paint1 = new Paint();
+    public void generatePaintColor(Context context) {
         paintList.clear();
+        Paint paint1 = new Paint();
         paint1.setColor(context.getResources().getColor(android.R.color.holo_red_dark));
-        paintList.put(0, paint1);
+        paintList.put(2, paint1);
         Paint paint2 = new Paint();
         paint2.setColor(context.getResources().getColor(android.R.color.holo_green_dark));
-        paintList.put(1, paint2);
+        paintList.put(3, paint2);
         Paint paint3 = new Paint();
         paint3.setColor(context.getResources().getColor(android.R.color.holo_blue_dark));
-        paintList.put(2, paint3);
+        paintList.put(4, paint3);
         Paint paint4 = new Paint();
-        paintList.put(3, paint4);
+        paintList.put(5, paint4);
+        Paint paint5 = new Paint();
+        paint5.setColor(context.getResources().getColor(android.R.color.white));
+        paintList.put(0, paint5);
+        Paint paint6 = new Paint();
+        paint6.setColor(context.getResources().getColor(android.R.color.black));
+        paintList.put(1, paint6);
     }
 
-    public Paint getPaint(int code) {
+    public static void setConfig(String newConfig) {
+        config = newConfig;
+    }
+
+    public Paint getPaint() {
+        Paint temp;
+        if (config.equals(GameUtil.SETTING_COLOUR_VALUES_RGB)) {
+            temp = paintList.get(GameUtil.randomInt(2,4));
+        } else if (config.equals(GameUtil.SETTING_COLOUR_VALUES_RANDOM)) {
+            temp = new Paint();
+            temp.setARGB(255, GameUtil.randomInt(0,255), GameUtil.randomInt(0,255), GameUtil.randomInt(0,255));
+        } else {
+            temp = paintList.get(1);
+        }
+        return temp;
+    }
+
+    public Paint getPaintByCode(int code) {
         Paint temp = paintList.get(code);
-        if (code == 3) {
-            temp.setARGB(255, GameUtil.randomInt(0,256), GameUtil.randomInt(0,256), GameUtil.randomInt(0,256));
+        if (code == 5) {
+            temp.setARGB(255, GameUtil.randomInt(0,255), GameUtil.randomInt(0,255), GameUtil.randomInt(0,255));
         }
         return temp;
     }
