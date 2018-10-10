@@ -60,7 +60,7 @@ public class ShapeFactory {
                 temp = temp >> 1;
             }
 
-            Paint paint = PaintFactory.getInstance().getPaint(GameUtil.randomInt(2,4));
+            Paint paint = PaintFactory.getInstance().getPaint();
             int max = GameUtil.max(arrTemp[0], arrTemp[1], arrTemp[2]);
             if (max == arrTemp[0]) {
                 int width = GameUtil.randomInt(GameUtil.MIN_WIDTH_SQUARE, GameUtil.MAX_WIDTH_SQUARE);
@@ -127,17 +127,12 @@ public class ShapeFactory {
     }
 
     public void clearAll() {
-        Iterator<Shape> it = active.iterator();
-        Shape temp;
-        while (it.hasNext()) {
-            temp = it.next();
-            if (temp instanceof Rectangle) {
-                this.pool[0].add(temp);
-            } else  if (temp instanceof Circle) {
-                this.pool[1].add(temp);
-            }
-            it.remove();
+        for (LinkedList ll:pool) {
+            ll.clear();
         }
+        active.clear();
+        this.soal = null;
+        this.tapped = null;
     }
 
     private boolean checkColliding (Shape s1) {

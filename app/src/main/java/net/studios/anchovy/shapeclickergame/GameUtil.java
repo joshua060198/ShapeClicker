@@ -3,7 +3,11 @@ package net.studios.anchovy.shapeclickergame;
 import java.util.Random;
 
 public class GameUtil {
-    public static final int PERMISSION_REQ_CODE = 1201;
+    public static final int PERMISSION_REQ_CODE_WRITE = 1201;
+    public static final int PERMISSION_REQ_CODE_READ = 1202;
+    public static final int INTENT_FOR_SELECT_IMAGE_CODE = 1101;
+    public static final int INTENT_FOR_SELECT_IMAGE_CODE_KITKAT = 1102;
+
     public static final byte SQUARE_SHAPE = 1;
     public static final byte CIRCLE_SHAPE = 2;
     public static final byte TRIANGLE_SHAPE = 4;
@@ -32,17 +36,19 @@ public class GameUtil {
     public static final String PLAY_GAME_PREFERENCE_KEY = "A9E9LZCAhoRTGoFhFwzL";
     public static final String TIME_KEY = "EgYoVaNDI5nexZPK6HHD";
     public static final String SCORE = "XOD8I03jGdPzfS7p6B5e";
-    public static final String USER_NAME = "5U3Mv9SsUUCpqqSm0M2P";
-    public static final String USER_PIC = "0OZRBrkJTU1qWF4KpeV6";
-    public static final String USER_SCORE = "6DMkw4GSeI3Y4Qi9v5o7";
-    public static final String USER_LAST_PLAYED = "UdEdiw4B2hRvfUC3mSRe";
     public static final String STATE = "RLC4WgOVE4C9fbhe397N";
+    public static final String USER_DATA = "yMcyXzfByvgxE6Q7aYfb";
+    public static final String STATE_DATA = "h6lHe0qXydq3W4J7MyxX";
+
 
     //Game State
     public static final byte HOME_STATE = 0;
     public static final byte SETTING_STATE = 1;
     public static final byte PLAY_STATE = 2;
     public static final byte RESULT_STATE = 3;
+
+    public static final String SETTING_COLOUR_VALUES_RGB = "RGB COLOR";
+    public static final String SETTING_COLOUR_VALUES_RANDOM = "RANDOM COLOR";
 
     private static final Random r = new Random();
 
@@ -90,8 +96,6 @@ public class GameUtil {
 }
 
 /*
-yMcyXzfByvgxE6Q7aYfb
-h6lHe0qXydq3W4J7MyxX
 hv69qaBgP44fi9yD7g6c
 VFBIZXSh3sIBjhxugPI5
 3m8U4n1cM9vA9AFZXH71

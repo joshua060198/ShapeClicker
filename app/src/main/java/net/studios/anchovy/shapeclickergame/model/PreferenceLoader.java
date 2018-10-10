@@ -33,12 +33,12 @@ public class PreferenceLoader {
 
     private void saveInt(String key, int data) {
         this.editor.putInt(key, data);
-        this.editor.commit();
+        this.editor.apply();
     }
 
     private void saveLong(String key, long data) {
         this.editor.putLong(key, data);
-        this.editor.commit();
+        this.editor.apply();
     }
 
     private long loadLong(String key){
@@ -71,22 +71,40 @@ public class PreferenceLoader {
         return this.loadInt(GameUtil.SCORE);
     }
 
-    public String loadUserName() {
-        return this.preference.getString(GameUtil.USER_NAME, "USER");
+    public void saveStringPathCurrentUser(String key, String path) {
+        this.preferenceEditor.putString(key, path);
+        this.preferenceEditor.apply();
     }
 
-    public String loadUserPic() {
-        //TODO
-        return this.preference.getString(GameUtil.USER_PIC, "");
+    public String loadStringSetting(String key) {
+        return this.preference.getString(key, "");
     }
 
-    public int loadUserScore() {
-        return this.preference.getInt(GameUtil.USER_SCORE, 0);
+    public int loadIntSetting(String key) {
+        return this.preference.getInt(key, 0);
     }
 
-    public long loadLastPlayed() {
-        return this.preference.getLong(GameUtil.USER_LAST_PLAYED, 0);
+    public boolean loadBooleanSetting(String key) {
+        return this.preference.getBoolean(key, true);
     }
 
     public int loadSettingMaxShapes(String key) { return Integer.parseInt(this.preference.getString(key, "5")); }
+
+    public void saveUserData(String s){
+        this.editor.putString(GameUtil.USER_DATA, s);
+        this.editor.apply();
+    }
+
+    public String loadUserData() {
+        return this.sp.getString(GameUtil.USER_DATA, "");
+    }
+
+    public void saveStateData(String s){
+        this.editor.putString(GameUtil.STATE_DATA, s);
+        this.editor.apply();
+    }
+
+    public String loadStateData() {
+        return this.preference.getString(GameUtil.STATE_DATA, "");
+    }
 }

@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 public class MyAlertDialogBuilder {
-    private AlertDialog stopGame, exitApp;
+    private AlertDialog stopGame, exitApp, resumeGame;
     private static MyAlertDialogBuilder instance;
     private AlertDialogListener listener;
 
@@ -53,6 +53,20 @@ public class MyAlertDialogBuilder {
                         exitApp.dismiss();
                     }
                 }).setCancelable(true).create();
+        this.resumeGame = new AlertDialog.Builder(context)
+                .setMessage(context.getString(R.string.exit_app_dialog))
+                .setPositiveButton(context.getString(R.string.yes_text), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        listener.resumeGame();
+                    }
+                })
+                .setNegativeButton(context.getString(R.string.no_text), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resumeGame.dismiss();
+                    }
+                }).setCancelable(true).create();
     }
 
     public void showEndGameDialog() {
@@ -63,9 +77,11 @@ public class MyAlertDialogBuilder {
         this.exitApp.show();
     }
 
+    public void showResumeGameDialog() { this.resumeGame.show(); }
+
     public interface AlertDialogListener {
         void endGame();
         void closeApp();
-
+        void resumeGame();
     }
 }

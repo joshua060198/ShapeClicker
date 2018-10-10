@@ -59,14 +59,14 @@ public class Rectangle extends Shape {
 
     @Override
     public void clear() {
-        this.canvas.drawRect(x,y,x+width,y+height, PaintFactory.getInstance().getPaint(GameUtil.WARNA_CLEAR));
+        this.canvas.drawRect(x,y,x+width,y+height, PaintFactory.getInstance().getPaintByCode(0));
     }
 
     @Override
     public void clearSoal(int maxWidth, int maxHeight) {
         float x = (maxWidth/2.0f) - (this.width/2.0f);
         float y = maxHeight + ((GameUtil.JARAK_SOAL-this.height)/2.0f);
-        this.canvas.drawRect(x,y,x+this.width,y+this.height,PaintFactory.getInstance().getPaint(GameUtil.WARNA_CLEAR));
+        this.canvas.drawRect(x,y,x+this.width,y+this.height,PaintFactory.getInstance().getPaintByCode(0));
     }
 
     public int getWidth() {

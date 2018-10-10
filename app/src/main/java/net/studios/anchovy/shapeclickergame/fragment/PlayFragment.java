@@ -36,8 +36,9 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
     private long timeLeft;
     private long prevTime;
     private CountDownTimer timerController;
-    private int currentScore;
+    private int currentScore, maxH, maxW;
     private GestureDetector gestureDetector;
+    private Canvas canvas;
 
     public PlayFragment() {
         // Required empty public constructor
@@ -66,18 +67,16 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         imageView.post(new Runnable() {
             @Override
             public void run() {
+                maxH = imageView.getHeight();
+                maxW = imageView.getWidth();
                 Bitmap bitmap = Bitmap.createBitmap(
-                        imageView.getWidth(),
-                        imageView.getHeight(),
+                        maxW,
+                        maxH,
                         Bitmap.Config.ARGB_4444
                 );
                 imageView.setImageBitmap(bitmap);
-                Canvas canvas = new Canvas(bitmap);
-                canvas.drawColor(getResources().getColor(android.R.color.white));
-                listener.initiateFactory(canvas, imageView.getHeight()-GameUtil.JARAK_SOAL, imageView.getWidth());
-                Paint line = PaintFactory.getInstance().getPaint(GameUtil.WARNA_GARIS_SOAL);
-                line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
-                canvas.drawLine(0,imageView.getHeight()- GameUtil.JARAK_SOAL,imageView.getWidth(),imageView.getHeight()- GameUtil.JARAK_SOAL, line);
+                canvas = new Canvas(bitmap);
+                resetCanvas();
                 int maxShapes = listener.loadMaxShapes();
                 for (int i = 0; i < maxShapes; i++) listener.generateShape();
                 listener.generateSoal();
@@ -115,7 +114,7 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
                     timeLeft = 60000;
                     currentScore = 0;
                     this.cancel();
-                    listener.goToResult(currentScore);
+                    listener.goToResult();
                 }
             };
             this.timerController.start();
@@ -127,6 +126,8 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         super.onPause();
         listener.saveTime(timeLeft);
         listener.saveScore(currentScore);
+        listener.updateScore(currentScore);
+        listener.updateLastPlayed(System.currentTimeMillis());
         timerController.cancel();
     }
 
@@ -200,6 +201,34 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         }
     }
 
+    public int getMaxH() {
+        return maxH;
+    }
+
+    public int getMaxW() {
+        return maxW;
+    }
+
+    public Canvas getCanvas() {
+        return canvas;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        listener.clearAll();
+        resetCanvas();
+    }
+
+    private void resetCanvas() {
+        canvas.drawColor(getResources().getColor(android.R.color.white));
+        listener.initiateFactory(canvas, maxH-GameUtil.JARAK_SOAL, maxW);
+        Paint line = PaintFactory.getInstance().getPaintByCode(GameUtil.WARNA_GARIS_SOAL);
+        line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
+        canvas.drawLine(0,maxH- GameUtil.JARAK_SOAL,maxW,maxH- GameUtil.JARAK_SOAL, line);
+    }
+
     public interface PlayFragmentListener {
         void initiateFactory(Canvas canvas, int maxH, int maxW);
         void generateShape();
@@ -212,6 +241,9 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         int loadMaxShapes();
         boolean isTappedCorrectly();
         boolean isTappedInsideAShape(float x, float y);
-        void goToResult(int score);
+        void goToResult();
+        void clearAll();
+        void updateScore(int currentScore);
+        void updateLastPlayed(long lastPlayed);
     }
 }

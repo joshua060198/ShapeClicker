@@ -56,14 +56,14 @@ public class Circle extends Shape {
 
     @Override
     public void clear() {
-        this.canvas.drawCircle(x,y,radius, PaintFactory.getInstance().getPaint(GameUtil.WARNA_CLEAR));
+        this.canvas.drawCircle(x,y,radius, PaintFactory.getInstance().getPaintByCode(0));
     }
 
     @Override
     public void clearSoal(int maxWidth, int maxHeight) {
         float x = (maxWidth/2.0f);
         float y = (maxHeight+ (GameUtil.JARAK_SOAL/2.0f));
-        this.canvas.drawCircle(x,y,radius,PaintFactory.getInstance().getPaint(GameUtil.WARNA_CLEAR));
+        this.canvas.drawCircle(x,y,radius,PaintFactory.getInstance().getPaintByCode(0));
     }
 
     public int getRadius() {

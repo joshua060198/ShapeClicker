@@ -21,7 +21,7 @@ public class ResultFragment extends Fragment {
     private User user;
     private ResultFragmentListener listener;
 
-    public static ResultFragment getInstance() {
+    public static ResultFragment newInstance() {
         return new ResultFragment();
     }
 

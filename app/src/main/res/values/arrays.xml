@@ -15,4 +15,14 @@
         <item>13</item>
         <item>15</item>
     </string-array>
+
+    <string-array name="setting_game_shape_color_entry">
+        <item>RGB Color</item>
+        <item>Random Color</item>
+    </string-array>
+
+    <string-array name="setting_game_shape_color_values">
+        <item>RGB COLOR</item>
+        <item>RANDOM COLOR</item>
+    </string-array>
 </resources>

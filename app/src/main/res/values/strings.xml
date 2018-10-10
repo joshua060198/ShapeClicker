@@ -33,5 +33,5 @@
     <string name="setting_game_shape_circle">setting_game_shape_circle</string>
     <string name="setting_game_max_shape_total">setting_game_max_shape_total</string>
     <string name="setting_game_sound">setting_game_sound</string>
-
+    <string name="setting_game_shape_color">setting_game_shape_color</string>
 </resources>

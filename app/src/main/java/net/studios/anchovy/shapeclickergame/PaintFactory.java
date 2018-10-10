@@ -9,6 +9,7 @@ import java.util.LinkedList;
 public class PaintFactory {
     private static PaintFactory instance;
     private static HashMap<Integer, Paint> paintList;
+    private static String config;
 
     public static PaintFactory getInstance() {
         if (instance == null) instance = new PaintFactory();
@@ -40,7 +41,24 @@ public class PaintFactory {
         paintList.put(1, paint6);
     }
 
-    public Paint getPaint(int code) {
+    public static void setConfig(String newConfig) {
+        config = newConfig;
+    }
+
+    public Paint getPaint() {
+        Paint temp;
+        if (config.equals(GameUtil.SETTING_COLOUR_VALUES_RGB)) {
+            temp = paintList.get(GameUtil.randomInt(2,4));
+        } else if (config.equals(GameUtil.SETTING_COLOUR_VALUES_RANDOM)) {
+            temp = new Paint();
+            temp.setARGB(255, GameUtil.randomInt(0,255), GameUtil.randomInt(0,255), GameUtil.randomInt(0,255));
+        } else {
+            temp = paintList.get(1);
+        }
+        return temp;
+    }
+
+    public Paint getPaintByCode(int code) {
         Paint temp = paintList.get(code);
         if (code == 5) {
             temp.setARGB(255, GameUtil.randomInt(0,255), GameUtil.randomInt(0,255), GameUtil.randomInt(0,255));

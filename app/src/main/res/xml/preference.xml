@@ -50,12 +50,21 @@
                 android:dialogTitle="Total Shapes"
                 android:defaultValue="5 Shapes"/>
 
+            <ListPreference
+                android:title="Shape Color"
+                android:key="@string/setting_game_shape_color"
+                android:entries="@array/setting_game_shape_color_entry"
+                android:entryValues="@array/setting_game_shape_color_values"
+                android:dialogTitle="Shape Color"
+                android:defaultValue="RGB COLOR"/>
+
         </PreferenceScreen>
 
         <SwitchPreference
             android:title="Sound"
             android:key="@string/setting_game_sound"
-            android:summary="Turn on/off backround music"/>
+            android:summary="Turn on/off backround music"
+            android:defaultValue="true"/>
 
     </PreferenceCategory>
 
