@@ -5,6 +5,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class JSONParser {
 
@@ -33,8 +34,9 @@ public class JSONParser {
 
     public ArrayList<User> getUserListFromJson(String json){
 
-        Log.d("USER_DEBUG", gson.fromJson(json,ArrayList.class).get(0).toString());
-        return this.gson.fromJson(json, ArrayList.class);
+//        Log.d("USER_DEBUG", gson.fromJson(json,ArrayList.class).get(0).toString());
+        User[] arrayOfUser = this.gson.fromJson(json, User[].class);
+        return new ArrayList<User>(Arrays.asList(arrayOfUser));
     }
 
     public String parsePlayStateToJson(PlayState toBeParsed) {
