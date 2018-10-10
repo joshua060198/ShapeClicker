@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     protected void onStart() {
         super.onStart();
 
-//        homeFragment.loadHighScore(presenter.loadHighScore());
+        homeFragment.loadHighScore(presenter.loadHighScore());
     }
 
     @Override
