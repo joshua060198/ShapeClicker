@@ -3,7 +3,6 @@ package net.studios.anchovy.shapeclickergame.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
 import net.studios.anchovy.shapeclickergame.PaintFactory;

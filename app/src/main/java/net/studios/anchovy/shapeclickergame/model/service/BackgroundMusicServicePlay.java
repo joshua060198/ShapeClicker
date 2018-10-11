@@ -28,11 +28,6 @@ public class BackgroundMusicServicePlay extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        try {
-//            player.prepare();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         player.start();
         return Service.START_STICKY;
     }

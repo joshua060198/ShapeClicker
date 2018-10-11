@@ -49,7 +49,6 @@ public class Circle extends Shape {
 
     @Override
     public boolean isInside(float x, float y) {
-//        Log.d("DEBUG", "CIRLE : " + this.x + " " + this.y + " " + this.radius + " " + x +  " " + y);
         double d = ((x-(this.x*1.0f))*(x-(this.x*1.0f))) + ((y-(this.y*1.0f))*(y-(this.y*1.0f)));
         return d <= (this.radius*1.0f*this.radius*1.0f);
     }

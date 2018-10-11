@@ -33,8 +33,6 @@ public class JSONParser {
     }
 
     public ArrayList<User> getUserListFromJson(String json){
-
-//        Log.d("USER_DEBUG", gson.fromJson(json,ArrayList.class).get(0).toString());
         User[] arrayOfUser = this.gson.fromJson(json, User[].class);
         return new ArrayList<User>(Arrays.asList(arrayOfUser));
     }
