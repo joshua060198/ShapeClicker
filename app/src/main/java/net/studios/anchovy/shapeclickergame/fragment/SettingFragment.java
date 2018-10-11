@@ -1,19 +1,15 @@
 package net.studios.anchovy.shapeclickergame.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.widget.BaseAdapter;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
@@ -30,15 +26,13 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
     }
 
     public static SettingFragment newInstance() {
-        SettingFragment fragment = new SettingFragment();
-        return fragment;
+        return new SettingFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Load the preferences from an XML resource
         addPreferencesFromResource(R.xml.preference);
 
         findPreference(getResources().getString(R.string.setting_user_profile_picture)).setOnPreferenceClickListener(this);
@@ -98,19 +92,30 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        if (preference.getKey().equals(getResources().getString(R.string.setting_user_profile_picture))) {
-//            if (Build.VERSION.SDK_INT < 19){
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GameUtil.INTENT_FOR_SELECT_IMAGE_CODE);
-//            } else {
-                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("image/jpeg");
-                startActivityForResult(intent, GameUtil.INTENT_FOR_SELECT_IMAGE_CODE_KITKAT);
-//            }
-        }
+        /**
+         * If the apps run in SDK < 19
+
+            if (preference.getKey().equals(getResources().getString(R.string.setting_user_profile_picture))) {
+                if (Build.VERSION.SDK_INT < 19){
+                    Intent intent = new Intent();
+                    intent.setType("image/*");
+                    intent.setAction(Intent.ACTION_GET_CONTENT);
+                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), GameUtil.INTENT_FOR_SELECT_IMAGE_CODE);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("image/jpeg");
+                    startActivityForResult(intent, GameUtil.INTENT_FOR_SELECT_IMAGE_CODE_KITKAT);
+                }
+            }
+
+         **/
+
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/jpeg");
+        startActivityForResult(intent, GameUtil.INTENT_FOR_SELECT_IMAGE_CODE_KITKAT);
+
         return true;
     }
 
@@ -144,22 +149,27 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
                 imagePath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
             }
         }
-//        else if(requestCode == GameUtil.INTENT_FOR_SELECT_IMAGE_CODE) {
-//            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-//
-//            Cursor cursor = getActivity().getContentResolver().query(originalUri, filePathColumn, null, null, null);
-//            cursor.moveToFirst();
-//
-//            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//            imagePath = cursor.getString(columnIndex);
-//            cursor.close();
-//        }
+        /**
+         * For the app run in SDK < 19
+         *
+            else if(requestCode == GameUtil.INTENT_FOR_SELECT_IMAGE_CODE) {
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+                Cursor cursor = getActivity().getContentResolver().query(originalUri, filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                imagePath = cursor.getString(columnIndex);
+                cursor.close();
+            }
+         **/
 
         if (imagePath != null) {
             findPreference(getResources().getString(R.string.setting_user_profile_picture)).setSummary(imagePath);
             ((BaseAdapter)getPreferenceScreen().getRootAdapter()).notifyDataSetChanged();
             listener.updateUserProfilePicture(imagePath);
         }
+        listener.continueBacksound();
     }
 
     private Uri getUri() {
@@ -176,6 +186,7 @@ public class SettingFragment extends PreferenceFragment implements SharedPrefere
         void updateBackSoundGame();
         void updateShapeColor(String newConfig);
         void updateShapeJenis();
+        void continueBacksound();
         String getUserName();
         String getProfilePicture();
     }

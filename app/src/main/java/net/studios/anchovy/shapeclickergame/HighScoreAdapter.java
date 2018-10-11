@@ -14,7 +14,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class HighScoreAdapter extends BaseAdapter {
@@ -78,6 +77,7 @@ public class HighScoreAdapter extends BaseAdapter {
         User newUser = new User(name, score, lastPlayed, path);
         this.data.add(newUser);
         Collections.sort(this.data);
+        checkMaxUser();
         notifyDataSetChanged();
     }
 
@@ -86,12 +86,22 @@ public class HighScoreAdapter extends BaseAdapter {
     }
 
     public void loadData(ArrayList<User> data) {
-        if (data != null) this.data = data;
+        if (data != null) {
+            this.data = data;
+            Collections.sort(this.data);
+        }
+        checkMaxUser();
         notifyDataSetChanged();
     }
 
     private String convertTime(long time) {
         this.date.setTime(time);
         return this.sdf.format(this.date);
+    }
+
+    private void checkMaxUser() {
+        while (this.data.size() > 5) {
+            this.data.remove(this.data.size()-1);
+        }
     }
 }

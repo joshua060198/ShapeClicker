@@ -1,27 +1,26 @@
 package net.studios.anchovy.shapeclickergame;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Canvas;
-import android.preference.Preference;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.WindowManager;
 import android.widget.Toast;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 
 import net.studios.anchovy.shapeclickergame.fragment.HomeFragment;
 import net.studios.anchovy.shapeclickergame.fragment.PlayFragment;
 import net.studios.anchovy.shapeclickergame.fragment.ResultFragment;
 import net.studios.anchovy.shapeclickergame.fragment.SettingFragment;
-import net.studios.anchovy.shapeclickergame.model.PreferenceLoader;
 import net.studios.anchovy.shapeclickergame.model.User;
 
 import java.io.IOException;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     private PlayFragment playFragment;
     private ResultFragment resultFragment;
     private SettingFragment settingFragment;
+    private AdView adView;
     private byte gameState;
 
     @Override
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
         this.presenter = new Presenter();
         this.homeFragment = HomeFragment.newInstance(getLayoutInflater());
-        this.playFragment = PlayFragment.newInstance(presenter);
+        this.playFragment = PlayFragment.newInstance();
         this.resultFragment = ResultFragment.newInstance();
         this.settingFragment =  SettingFragment.newInstance();
 
@@ -59,39 +59,25 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
         int readExternalStoragePermission = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE);
 
-        if(writeExternalStoragePermission!= PackageManager.PERMISSION_GRANTED)
+        if(readExternalStoragePermission!= PackageManager.PERMISSION_GRANTED)
         {
             // Request user to grant write external storage permission.
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, GameUtil.PERMISSION_REQ_CODE_READ);
         }
 
-        try {
-            this.presenter.initiateObject(this);
-        } catch (IOException e) {
-            Toast.makeText(this, "ERROR TO INITIATE OBJECT!\nPlease restart the app or contact the developer!", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
+        this.presenter.initiateObject(this);
 
         MyAlertDialogBuilder.getInstance().init(this);
 
-//        this.gameState = this.presenter.loadState();
-
         this.gameState = 0;
-        switch (gameState) {
-            case GameUtil.HOME_STATE:
-                changeToHomeFragment();
-                break;
-            case GameUtil.PLAY_STATE:
-                MyAlertDialogBuilder.getInstance().showResumeGameDialog();
-                break;
-            case GameUtil.RESULT_STATE:
-                changeToResultFragment();
-                break;
-            case GameUtil.SETTING_STATE:
-                changeToSettingFragment();
-                break;
-        }
+
         PreferenceManager.setDefaultValues(this, R.xml.preference, false);
+
+        MobileAds.initialize(this, "ca-app-pub-1927924539908751~4271881458");
+
+        adView = findViewById(R.id.myAd);
+        AdRequest adReq = new AdRequest.Builder().addTestDevice("42279FE34C9AA2B86C743CBE053F1945").build();
+        adView.loadAd(adReq);
 
     }
 
@@ -156,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     }
 
     private void goToResultScreen() {
-        changeToHomeFragment();
+        changeToResultFragment();
         this.presenter.saveTime(60000);
         this.presenter.saveScore(0);
         User temp = presenter.getCurrentUser();
@@ -191,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 changeToHomeFragment();
                 break;
             case GameUtil.PLAY_STATE:
-                changeToPlayGameFragment();
+                MyAlertDialogBuilder.getInstance().showResumeGameDialog();
                 break;
             case GameUtil.RESULT_STATE:
                 changeToResultFragment();
@@ -214,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
                 MyAlertDialogBuilder.getInstance().showEndGameDialog();
                 break;
             case GameUtil.RESULT_STATE:
-                // TODO
+                changeToHomeFragment();
                 break;
             case GameUtil.SETTING_STATE:
                 changeToHomeFragment();
@@ -224,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     @Override
     public void playGame() {
-//        PreferenceLoader.getInstance().saveInt(GameUtil.TIME_KEY, 60000);
         this.presenter.saveTime(60000);
         this.presenter.saveScore(0);
         this.changeToPlayGameFragment();
@@ -285,7 +270,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     @Override
     public boolean isTappedCorrectly() {
-        return this.presenter.isTappedCorrectly();
+        boolean res = this.presenter.isTappedCorrectly();
+        resultFragment.setCurrentClick(presenter.getCurrentClick());
+        resultFragment.clicked(res);
+        return res;
     }
 
     @Override
@@ -310,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
 
     @Override
     public void resumeGame() {
-        //TODO
+        changeToPlayGameFragment();
     }
 
     @Override
@@ -371,5 +359,22 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.Home
     @Override
     public void updateLastPlayed(long lastPlayed) {
         presenter.updateLastPlayed(lastPlayed);
+    }
+
+    @Override
+    public void tryAgain() {
+        this.presenter.saveTime(60000);
+        this.presenter.saveScore(0);
+        changeToPlayGameFragment();
+    }
+
+    @Override
+    public void toMainMenu() {
+        changeToHomeFragment();
+    }
+
+    @Override
+    public void continueBacksound() {
+        this.presenter.changeMusicToHome(this);
     }
 }

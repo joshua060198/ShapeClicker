@@ -7,8 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,10 +31,8 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
     private ImageView imageView;
     private TextView timer, highscore;
     private ProgressBar timeProgress;
-    private Presenter presenter;
     private PlayFragmentListener listener;
     private long timeLeft;
-    private long prevTime;
     private CountDownTimer timerController;
     private int currentScore, maxH, maxW;
     private GestureDetector gestureDetector;
@@ -44,16 +42,13 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         // Required empty public constructor
     }
 
-    public static PlayFragment newInstance(Presenter presenter) {
-        PlayFragment fragment = new PlayFragment();
-        fragment.presenter = presenter;
-        return fragment;
+    public static PlayFragment newInstance() {
+        return new PlayFragment();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_play, container, false);
 
         this.imageView = v.findViewById(R.id.canvas);
@@ -110,7 +105,7 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
 
                 @Override
                 public void onFinish() {
-                    timer.setText("00:000");
+                    timer.setText(getResources().getString(R.string.timer));
                     timeLeft = 60000;
                     currentScore = 0;
                     this.cancel();
@@ -126,8 +121,6 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         super.onPause();
         listener.saveTime(timeLeft);
         listener.saveScore(currentScore);
-        listener.updateScore(currentScore);
-        listener.updateLastPlayed(System.currentTimeMillis());
         timerController.cancel();
     }
 
@@ -172,6 +165,9 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
             } else {
                 currentScore += GameUtil.ANSWER_WRONG;
             }
+
+            listener.updateScore(currentScore);
+            listener.updateLastPlayed(System.currentTimeMillis());
             this.highscore.setText(String.format(Locale.getDefault(), "%d", this.currentScore));
         }
         return true;
@@ -227,6 +223,7 @@ public class PlayFragment extends Fragment implements View.OnTouchListener, Gest
         Paint line = PaintFactory.getInstance().getPaintByCode(GameUtil.WARNA_GARIS_SOAL);
         line.setStrokeWidth(GameUtil.STROKE_GARIS_SOAL);
         canvas.drawLine(0,maxH- GameUtil.JARAK_SOAL,maxW,maxH- GameUtil.JARAK_SOAL, line);
+        imageView.invalidate();
     }
 
     public interface PlayFragmentListener {

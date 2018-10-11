@@ -12,6 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1927924539908751~4271881458"/>
         <service android:enabled="true" android:name=".model.service.BackgroundMusicServiceHome" />
         <service android:enabled="true" android:name=".model.service.BackgroundMusicServicePlay" />
         <activity android:name=".MainActivity">

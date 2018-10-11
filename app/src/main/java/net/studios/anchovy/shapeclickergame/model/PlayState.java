@@ -40,7 +40,6 @@ public class PlayState {
     }
 
     public PlayState(Shape[] shapeList, Shape soal, long time, int score) {
-
         this.shapeList = shapeList;
         this.soal = soal;
         this.time = time;

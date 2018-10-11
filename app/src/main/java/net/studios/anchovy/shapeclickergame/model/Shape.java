@@ -3,7 +3,6 @@ package net.studios.anchovy.shapeclickergame.model;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
 import net.studios.anchovy.shapeclickergame.PaintFactory;
@@ -13,7 +12,6 @@ public abstract class Shape implements Drawable {
     protected double velocity;
     protected String text;
     protected Canvas canvas;
-    protected boolean isOnScreen;
     protected PaintFactory paintFactory;
     protected Paint paint;
 
@@ -22,7 +20,6 @@ public abstract class Shape implements Drawable {
         this.x = x;
         this.y = y;
         this.velocity = velocity;
-        this.isOnScreen = false;
         this.text = text;
         this.paint = paint;
         this.paintFactory = PaintFactory.getInstance();
@@ -108,9 +105,5 @@ public abstract class Shape implements Drawable {
         } else {
             return false;
         }
-    }
-
-    public void setOnScreen(boolean onScreen) {
-        isOnScreen = onScreen;
     }
 }

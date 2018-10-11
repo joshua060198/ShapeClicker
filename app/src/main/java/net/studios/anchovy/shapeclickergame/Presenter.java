@@ -6,10 +6,10 @@ import android.graphics.Canvas;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import net.studios.anchovy.shapeclickergame.model.Shape;
 import net.studios.anchovy.shapeclickergame.model.service.BackgroundMusicServiceHome;
 import net.studios.anchovy.shapeclickergame.model.JSONParser;
 import net.studios.anchovy.shapeclickergame.model.PreferenceLoader;
-import net.studios.anchovy.shapeclickergame.model.SaveAndLoad;
 import net.studios.anchovy.shapeclickergame.model.User;
 import net.studios.anchovy.shapeclickergame.model.service.BackgroundMusicServicePlay;
 
@@ -20,8 +20,6 @@ public class Presenter {
 
     private ShapeFactory shapeFactory;
     private PreferenceLoader preferenceLoader;
-    private SaveAndLoad saveAndLoad;
-    private PaintFactory paintFactory;
     private User currentUser;
     private JSONParser jsonParser;
     private Intent backsound;
@@ -30,10 +28,9 @@ public class Presenter {
         this.shapeFactory = ShapeFactory.getInstance(configuration,canvas,maxH,maxW);
     }
 
-    public void initiateObject(Context context) throws IOException {
+    public void initiateObject(Context context) {
         this.preferenceLoader = PreferenceLoader.getInstance();
         this.preferenceLoader.init(context.getSharedPreferences(GameUtil.PLAY_GAME_PREFERENCE_KEY, Context.MODE_PRIVATE), PreferenceManager.getDefaultSharedPreferences(context));
-        this.saveAndLoad = new SaveAndLoad(context);
         PaintFactory.getInstance().generatePaintColor(context);
         String name = this.preferenceLoader.loadStringSetting(context.getResources().getString(R.string.setting_user_profile_username));
         String picturePath = this.preferenceLoader.loadStringSetting(context.getResources().getString(R.string.setting_user_profile_picture));
@@ -112,10 +109,6 @@ public class Presenter {
         this.preferenceLoader.saveStringPathCurrentUser(key, path);
     }
 
-    public void updateUserScore(int score) {
-        this.currentUser.setScore(score);
-    }
-
     private void printLog() {
         Log.d("USER_TEST", this.currentUser.toString());
     }
@@ -163,4 +156,10 @@ public class Presenter {
     public ArrayList<User> loadHighScore() {
         return this.jsonParser.getUserListFromJson(preferenceLoader.loadUserData());
     }
+
+    public Shape getCurrentClick() {
+        return this.shapeFactory.getTapped();
+    }
+
+
 }
