@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.ResultFragment">
+    tools:context=".fragment.ResultFragment"
+    android:background="@drawable/background_anim">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_anim"
         android:id = "@+id/result">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/highscore_text"
+            android:text="@string/score_text"
             android:gravity="center_horizontal"
-            android:textSize="@dimen/ts_30"
+            android:textSize="@dimen/ts_20"
             android:layout_marginTop="@dimen/s_20"
             android:id="@+id/highscore_res" />
 
@@ -26,6 +26,8 @@
             android:hint="Show here"
             android:layout_below="@+id/highscore_res"
             android:gravity="center_horizontal"
+            android:textSize="@dimen/ts_30"
+            android:textStyle="bold"
             android:layout_marginTop="@dimen/s_16"
             android:id="@+id/score_res"/>
 
@@ -42,12 +44,12 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/res_user_pic"
             android:layout_centerHorizontal="true"
-            android:hint="My Name"
             android:textSize="@dimen/ts_16"
             android:layout_marginTop="@dimen/s_16"
             android:id="@+id/res_user_name" />
 
         <RelativeLayout
+            android:id="@+id/layout_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/res_user_name"
@@ -57,10 +59,10 @@
                 android:id="@+id/no_clicks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginStart="@dimen/s_16"
                 android:layout_marginTop="@dimen/s_20"
                 android:text="@string/no_of_clicks"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:textStyle="bold" />
 
@@ -69,10 +71,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/no_clicks"
-                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginStart="@dimen/s_16"
                 android:layout_marginTop="@dimen/s_16"
                 android:text="@string/correct_per"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:textStyle="bold" />
 
             <TextView
@@ -80,10 +82,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/no_clicks_per"
-                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginStart="@dimen/s_16"
                 android:layout_marginTop="@dimen/s_16"
                 android:text="@string/no_of_rect"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:textStyle="bold" />
 
             <TextView
@@ -91,45 +93,90 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/no_clicks_rect"
-                android:layout_marginLeft="@dimen/s_16"
+                android:layout_marginStart="@dimen/s_16"
                 android:layout_marginTop="@dimen/s_16"
                 android:text="@string/no_of_circle"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/res_user_name"
+            android:layout_marginTop="@dimen/s_16"
+            android:layout_toEndOf="@id/layout_title">
+
+            <TextView
+                android:id="@+id/no_clicks_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_20"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/no_clicks_tri"
+                android:id="@+id/no_clicks_per_val"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/no_clicks_circle"
-                android:layout_marginLeft="@dimen/s_16"
+                android:layout_below="@id/no_clicks_val"
+                android:layout_marginStart="@dimen/s_16"
                 android:layout_marginTop="@dimen/s_16"
-                android:text="@string/no_of_triangle"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_rect_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks_per_val"
+                android:layout_marginStart="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:layout_alignParentStart="true"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/no_clicks_circle_val"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/no_clicks_rect_val"
+                android:layout_marginStart="@dimen/s_16"
+                android:layout_marginTop="@dimen/s_16"
+                android:layout_alignParentStart="true"
                 android:textStyle="bold" />
 
         </RelativeLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:id="@+id/btn_menu_game"
             android:text="@string/menu_text"
-            android:background="@color/lightGrey"
+            android:background="@drawable/result_button"
             android:layout_marginBottom="@dimen/s_16"
-            android:layout_marginLeft="@dimen/s_75"/>
+            android:layout_marginStart="@dimen/s_20"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/ts_20"
+            android:padding="@dimen/s_16"/>
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:text="@string/try_again_text"
-            android:background="@color/lightGrey"
+            android:id="@+id/btn_try_again"
+            android:padding="@dimen/s_16"
+            android:textSize="@dimen/ts_20"
+            android:textColor="@android:color/white"
+            android:background="@drawable/result_button"
             android:layout_marginBottom="@dimen/s_16"
-            android:layout_marginRight="@dimen/s_75"/>
+            android:layout_marginEnd="@dimen/s_20"/>
 
     </RelativeLayout>
 

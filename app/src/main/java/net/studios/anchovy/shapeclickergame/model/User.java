@@ -43,7 +43,6 @@ public class User implements Comparable<User> {
     }
 
     public User(String name, int score, long lastPlayed, String picturePath) {
-
         this.name = name;
         this.score = score;
         this.lastPlayed = lastPlayed;

@@ -34,4 +34,6 @@
     <string name="setting_game_max_shape_total">setting_game_max_shape_total</string>
     <string name="setting_game_sound">setting_game_sound</string>
     <string name="setting_game_shape_color">setting_game_shape_color</string>
+
+    <string name="result_val">%d</string>
 </resources>

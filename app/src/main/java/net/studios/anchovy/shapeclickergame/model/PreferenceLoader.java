@@ -1,11 +1,8 @@
 package net.studios.anchovy.shapeclickergame.model;
 
 import android.content.SharedPreferences;
-import android.preference.Preference;
 
 import net.studios.anchovy.shapeclickergame.GameUtil;
-
-import java.io.IOException;
 
 public class PreferenceLoader {
 

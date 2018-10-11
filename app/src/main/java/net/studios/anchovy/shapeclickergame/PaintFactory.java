@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Paint;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class PaintFactory {
     private static PaintFactory instance;

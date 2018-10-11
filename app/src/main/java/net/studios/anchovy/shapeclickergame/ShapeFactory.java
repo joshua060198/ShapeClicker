@@ -3,13 +3,11 @@ package net.studios.anchovy.shapeclickergame;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import net.studios.anchovy.shapeclickergame.model.Circle;
 import net.studios.anchovy.shapeclickergame.model.Rectangle;
 import net.studios.anchovy.shapeclickergame.model.Shape;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class ShapeFactory {
@@ -26,7 +24,6 @@ public class ShapeFactory {
        if (instance == null) {
            instance = new ShapeFactory();
        }
-
        config = configuration;
        canvas = canvasInp;
        maxHeight = maxH;
@@ -86,6 +83,10 @@ public class ShapeFactory {
         active.add(res);
 
         return res;
+    }
+
+    public Shape getTapped() {
+        return this.tapped;
     }
 
     public void showSoal() {
